@@ -5,7 +5,7 @@
  */
 
 import './bootstrap';
-import { createApp } from 'vue';
+// import { createApp } from 'vue';
 import '../css/app.css';
 
 /**
@@ -13,34 +13,40 @@ import '../css/app.css';
  * registering components with the application instance so they are ready
  * to use in your application's views. An example is included for you.
  */
+import { createApp, h } from 'vue'
+import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
+import AdminLayout from "./Layouts/AdminLayout.vue";
+import AppLayout from "./Layouts/AppLayout.vue";
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
-const app = createApp({});
+createInertiaApp({
+    resolve: async name => {
+        const pageComponent = await resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue'));
+        const page = pageComponent.default;
 
+        console.log(name);
 
-import HomePage from './components/HomePage.vue';
-import Navbar from './components/Navbar.vue';
-import FooterComponent from './components/FooterComponent.vue';
+        let layout = null;
 
-app.component('home-page', HomePage);
-app.component('navbar', Navbar);
-app.component('footer-component', FooterComponent);
+        if (name.toLocaleLowerCase().startsWith('admin/')) {
+            layout = AdminLayout;
+        } else if (name.toLocaleLowerCase().startsWith('frontend/')) {
+            layout = AppLayout;
+        } else {
+            layout = null;
+        }
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+        // Assignez le layout si la page n'a pas de layout défini
+        page.layout = page.layout !== undefined ? page.layout : layout;
 
-// Object.entries(import.meta.glob('./**/*.vue', { eager: true })).forEach(([path, definition]) => {
-//     app.component(path.split('/').pop().replace(/\.\w+$/, ''), definition.default);
-// });
+        return pageComponent;
+    },
+  setup({ el, App, props, plugin }) {
+    createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .component('Link', Link)
+      .component('Head', Head)
 
-/**
- * Finally, we will attach the application instance to a HTML element with
- * an "id" attribute of "app". This element is included with the "auth"
- * scaffolding. Otherwise, you will need to add an element yourself.
- */
-
-app.mount('#app');
+      .mount(el)
+  },
+})
