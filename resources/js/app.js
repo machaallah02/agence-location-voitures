@@ -18,7 +18,12 @@ import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
 import AdminLayout from "./Layouts/AdminLayout.vue";
 import AppLayout from "./Layouts/AppLayout.vue";
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import Toast from "vue-toastification";
 
+
+
+import { Ziggy } from './ziggy.js';
+import { route } from '../../vendor/tightenco/ziggy';
 createInertiaApp({
     resolve: async name => {
         const pageComponent = await resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue'));
@@ -41,12 +46,16 @@ createInertiaApp({
 
         return pageComponent;
     },
-  setup({ el, App, props, plugin }) {
-    createApp({ render: () => h(App, props) })
-      .use(plugin)
-      .component('Link', Link)
-      .component('Head', Head)
-
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
+        .use(plugin)
+        .use(Toast)
+        .use(Ziggy)
+        .mixin({ methods: { route } })
+        .component('Link', Link)
+        .component('Head', Head)
+        .mixin({ methods: { route } })
+      .use(Ziggy)
       .mount(el)
   },
 })

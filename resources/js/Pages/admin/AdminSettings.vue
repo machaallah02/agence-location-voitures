@@ -5,27 +5,8 @@
     </div>
 </template>
 
-// <script>
-// import { usePage } from '@inertiajs/inertia-vue3';
-// import AdminLayout from '@/Layouts/AdminLayout.vue';
-
-// export default {
-//   name: 'AdminSettings',
-//   components: {
-//     AdminLayout,
-//   },
-//   setup() {
-//     const { props } = usePage();
-//     const settings = props.value.settings;
-//     return { settings };
-//   },
-//   methods: {
-//     async saveSettings() {
-//       // Logique pour sauvegarder les paramètres
-//     },
-//   },
-// };
-// </script>
+<script>
+ </script>
 
 <style scoped>
 /* Ajoutez des styles personnalisés si nécessaire */

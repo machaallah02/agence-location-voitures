@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        return Inertia::render('admin/AdminDashboard');
+        return inertia('admin/index');
     }
 
     public function users()
     {
         // Récupérer les utilisateurs depuis la base de données si nécessaire
-        $users = []; // Remplacez par la logique de récupération des utilisateurs
-        return Inertia::render('admin/AdminUsers', [
+        $users = User::all(); 
+        return inertia('admin/users/index', [
             'users' => $users,
         ]);
     }
@@ -24,8 +25,8 @@ class AdminController extends Controller
     public function settings()
     {
         // Récupérer les paramètres depuis la base de données si nécessaire
-        $settings = []; // Remplacez par la logique de récupération des paramètres
-        return Inertia::render('admin/AdminSettings', [
+        $settings = []; 
+        return inertia('admin/AdminSettings', [
             'settings' => $settings,
         ]);
     }

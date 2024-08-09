@@ -8,35 +8,41 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class AuthController extends Controller
 {
     public function login()
     {
-        return inertia('auth/Login'); 
+        return Inertia::render('auth/Login'); 
     }
 
     public function postLogin(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
         $credentials = $request->only('email', 'password');
         $remember = $request->has('remember');
     
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
             
-            // Rediriger en fonction du rôle de l'utilisateur
             if ($user->role == 'admin') {
-                return response()->json(['redirect' => '/admin/dashboard']);
+                return Inertia::location('/admin/index');
             } else {
-                return response()->json(['redirect' => '/home']);
+                return Inertia::location('/home');
             }
         } else {
-            // Authentification échouée
-            return response()->json(['message' => 'Identifiants invalides.'], 401);
+            return Inertia::render('auth/Login', [
+                'errors' => ['email' => ['Identifiants invalides.']]
+            ]);
         }
     }
     
-
+    
     public function createAdmin()
     {
         $admin = User::create([
@@ -44,12 +50,16 @@ class AuthController extends Controller
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin'),
             'role' => 'admin'
-
         ]);
+        
         if ($admin) {
-            return 'Administrateur créé avec succès.';
+            return Inertia::render('Success', [
+                'message' => 'Administrateur créé avec succès.'
+            ]);
         } else {
-            return 'Erreur lors de la création de l\'administrateur.';
+            return Inertia::render('Error', [
+                'message' => 'Erreur lors de la création de l\'administrateur.'
+            ]);
         }
     }
 }

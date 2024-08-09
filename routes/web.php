@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\MaintenanceController;
+use App\Http\Controllers\Admin\VehiculeController;
+use App\Http\Controllers\Admin\ReservationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/reservations', [HomeController::class, 'reservations'])->name('reservations');
@@ -13,11 +17,37 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'postLogin']);
 
 
-// Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
-// });
-
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::controller(UserController::class)->group(function () {
+        Route::resource('users', UserController::class)->only(['index', 'create', 'store']);
+        Route::get('/users/{user:id}/show', 'show')->name('users.show');
+        Route::get('/users/{user:id}', 'edit')->name('users.edit');
+        Route::put('/users/{user:id}', 'update')->name('users.update');
+        Route::delete('/users/{user:id}', 'destroy')->name('users.destroy');
+    });
+    Route::controller(VehiculeController::class)->group(function () {
+        Route::resource('vehicules', VehiculeController::class)->only(['index', 'create', 'store']);
+        Route::get('/vehicules/{vehicule:id}/show', 'show')->name('vehicules.show');
+        Route::get('/vehicules/{vehicule:id}', 'edit')->name('vehicules.edit');
+        Route::put('/vehicules/{vehicule:id}', 'update')->name('vehicules.update');
+        Route::delete('/vehicules/{vehicule:id}', 'destroy')->name('vehicules.destroy');  
+    });
+    Route::controller(ReservationController::class)->group(function () {
+        Route::resource('reservations', ReservationController::class)->only(['index', 'create', 'store']);
+        Route::get('/reservations/{reservation:id}/show', 'show')->name('reservations.show');
+        Route::get('/reservations/{reservation:id}', 'edit')->name('reservations.edit');
+        Route::put('/reservations/{reservation:id}', 'update')->name('reservations.update');
+        Route::delete('/reservations/{reservation:id}', 'destroy')->name('reservations.destroy');
+    });
+    Route::controller(MaintenanceController::class)->group(function () {
+        Route::resource('maintenances', MaintenanceController::class)->only(['index', 'create', 'store']);
+        Route::get('/maintenances/{maintenance:id}/show', 'show')->name('maintenances.show');
+        Route::get('/maintenances/{maintenance:id}', 'edit')->name('maintenances.edit');
+        Route::put('/maintenances/{maintenance:id}', 'update')->name('maintenances.update');
+        Route::delete('/maintenances/{maintenance:id}', 'destroy')->name('maintenances.destroy');
+    });
+    Route::get('index', [AdminController::class, 'dashboard'])->name('admin.index');
+    Route::get('settings', [AdminController::class, 'settings'])->name('admin.settings');
+});
 Route::get('/createAdmin', [AuthController::class, 'createAdmin']);
 
