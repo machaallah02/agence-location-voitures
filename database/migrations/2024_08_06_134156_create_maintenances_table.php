@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vehicle_id')->constrained('vehicles')->onDelete('cascade');
+            $table->foreignId('vehicule_id')->constrained('vehicules')->onDelete('cascade');
             $table->date('date_maintenance');
             $table->text('description');
             $table->enum('statut', ['planifié', 'complété']);

@@ -1,9 +1,9 @@
 <template>
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <div :class="['bg-gray-800 text-white transition-all duration-300', sidebarOpen ? 'w-64' : 'w-20']">
+    <div :class="['bg-gray-800 text-white transition-all duration-300 h-screen', sidebarOpen ? 'w-64' : 'w-20']">
       <div class="p-4">
-        <h2 v-if="sidebarOpen" class="text-xl font-bold">Admin Panel</h2>
+        <h2 v-if="sidebarOpen" class="text-xl font-bold">Admin </h2>
        <nav class="mt-6">
   <ul>
     <li class="flex items-center">
@@ -90,8 +90,14 @@
       <main class="flex-1 p-6 bg-gray-100">
         <slot></slot>
       </main>
+         <!-- Footer -->
+      <footer class="bg-gray-800 text-white text-center p-4">
+        <p>&copy; 2024 Your Company. Tous droits réservés.</p>
+      </footer>
     </div>
+
   </div>
+
 </template>
 
 <script setup>
