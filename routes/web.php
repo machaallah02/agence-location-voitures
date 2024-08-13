@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\AuthController;
@@ -9,14 +8,24 @@ use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\VehiculeController;
 use App\Http\Controllers\Admin\ReservationController;
 
+// Route accessible pour tous
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/reservations', [HomeController::class, 'reservations'])->name('reservations');
+
+// Route accessible pour les clients connectés uniquement
+Route::middleware(['auth', 'client'])->group(function () {
+    Route::get('/home', [HomeController::class, 'clientHome'])->name('client.home');
+    Route::get('/reservation/{vehicule}', [VehiculeController::class, 'reservation'])->name('reservation');
+    Route::post('/reservations/check-availability/{id}', [ReservationController::class, 'checkAvailability'])->name('reservations.checkAvailability');
+});
+
+// Routes pour la connexion et l'inscription
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
-Route::get('/register', [HomeController::class, 'register'])->name('register');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'postLogin']);
+Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
 
-
+// Routes administratives protégées
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::resource('users', UserController::class)->only(['index', 'create', 'store']);
@@ -46,8 +55,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::put('/maintenances/{maintenance:id}', 'update')->name('maintenances.update');
         Route::delete('/maintenances/{maintenance:id}', 'destroy')->name('maintenances.destroy');
     });
-    Route::get('index', [AdminController::class, 'dashboard'])->name('admin.index');
+    //Route::get('index', [AdminController::class, 'dashboard'])->name('admin.index');
     Route::get('settings', [AdminController::class, 'settings'])->name('admin.settings');
 });
-Route::get('/createAdmin', [AuthController::class, 'createAdmin']);
 
+Route::get('admin/index', [AdminController::class, 'dashboard'])->name('admin.index');
+
+// Route pour créer un admin (potentiellement pour des tests)
+Route::get('/createAdmin', [AuthController::class, 'createAdmin']);

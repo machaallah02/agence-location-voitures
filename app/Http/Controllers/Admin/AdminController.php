@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return inertia('admin/index');
+        return view('admin/index');
     }
 
     public function users()

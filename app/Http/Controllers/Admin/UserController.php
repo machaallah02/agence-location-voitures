@@ -1,32 +1,33 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Http\Requests\Admin\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserUpdateRequest;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    // Display the list of users
-    public function index(): Response
+    // Afficher la liste des utilisateurs
+    public function index(): View
     {
         $users = User::all();
-        return inertia('admin/users/index', [
+        return view('admin.users.index', [
             'users' => $users,
         ]);
     }
 
-    // Show the form to create a new user
-    public function create(): Response
+    // Afficher le formulaire de création d'un nouvel utilisateur
+    public function create(): View
     {
-        return inertia('admin/users/create');
+        return view('admin.users.create');
     }
 
-    // Store a new user
-    public function store(UserRequest $request)
+    // Enregistrer un nouvel utilisateur
+    public function store(UserRequest $request): RedirectResponse
     {
         User::create([
             'nom' => $request->nom,
@@ -38,24 +39,24 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Utilisateur créé avec succès.');
     }
 
-    // Show the details of a user
-    public function show(User $user): Response
+    // Afficher les détails d'un utilisateur
+    public function show(User $user): View
     {
-        return inertia('admin/users/show', [
+        return view('admin.users.show', [
             'user' => $user,
         ]);
     }
 
-    // Show the form to edit a user
-    public function edit(User $user): Response
+    // Afficher le formulaire de modification d'un utilisateur
+    public function edit(User $user): View
     {
-        return inertia('admin/users/edit', [
+        return view('admin.users.edit', [
             'user' => $user,
         ]);
     }
 
-    // Update the user's information
-    public function update(UserUpdateRequest $request, User $user)
+    // Mettre à jour les informations d'un utilisateur
+    public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
         $user->update([
             'nom' => $request->nom,
@@ -67,8 +68,8 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
 
-    // Delete a user
-    public function destroy(User $user)
+    // Supprimer un utilisateur
+    public function destroy(User $user): RedirectResponse
     {
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'Utilisateur supprimé avec succès.');

@@ -28,6 +28,7 @@ class VehiculeUpdateRequest extends FormRequest
             'numéro_immatriculation' => 'required|string|max:255|unique:vehicules,numéro_immatriculation,' . $this->vehicule->id,
             'statut_disponibilité' => 'required|boolean',
             'tarif_location' => 'required|numeric|min:0',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048',
         ];
     }
 }

@@ -2,28 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Vehicule;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    // Méthode pour la page d'accueil générale
     public function index()
     {
-        return inertia('frontend/Home');
+        $vehicules = Vehicule::all();
+        return view('home/index', compact('vehicules'));
     }
 
+    // Méthode pour la page d'accueil des clients connectés
+    public function clientHome()
+    {
+        $vehicules = Vehicule::all();
+       return view('home/clientHome', compact('vehicules'));
+    }
+
+    // Méthode pour la page de réservation
     public function reservations()
     {
-        return inertia('frontend/Reservations');
+        return Inertia::render('frontend/Reservations');
     }
 
+    // Méthode pour la page de contact
     public function contact()
     {
-        return inertia('frontend/Contact');
+        return Inertia::render('frontend/Contact');
     }
 
+    // Méthode pour la page d'inscription
     public function register()
     {
-        return inertia('frontend/Register');
+        return Inertia::render('frontend/Register');
     }
 }
