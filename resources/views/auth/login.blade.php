@@ -110,6 +110,11 @@
         <div class="login-box">
             <h2>Login</h2>
 
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
             <!-- Formulaire de connexion -->
             <form action="{{ route('login') }}" method="POST">
                 @csrf

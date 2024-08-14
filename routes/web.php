@@ -1,21 +1,23 @@
-<?php 
+<?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\VehiculeController;
+use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\ReservationController;
 
 // Route accessible pour tous
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Route accessible pour les clients connectés uniquement
-Route::middleware(['auth', 'client'])->group(function () {
-    Route::get('/home', [HomeController::class, 'clientHome'])->name('client.home');
-    Route::get('/reservation/{vehicule}', [VehiculeController::class, 'reservation'])->name('reservation');
-    Route::post('/reservations/check-availability/{id}', [ReservationController::class, 'checkAvailability'])->name('reservations.checkAvailability');
+Route::middleware(['auth', 'client'])->group(function () {  
+Route::get('/reservation/{vehicule}', [ClientController::class, 'showReservationForm'])->name('reservation');
+Route::post('/reservation', [ClientController::class, 'store'])->name('reservations.store');
+
 });
 
 // Routes pour la connexion et l'inscription
@@ -24,6 +26,9 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'postLogin']);
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
+
+// Route pour la deconnexion
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes administratives protégées
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -39,7 +44,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/vehicules/{vehicule:id}/show', 'show')->name('vehicules.show');
         Route::get('/vehicules/{vehicule:id}', 'edit')->name('vehicules.edit');
         Route::put('/vehicules/{vehicule:id}', 'update')->name('vehicules.update');
-        Route::delete('/vehicules/{vehicule:id}', 'destroy')->name('vehicules.destroy');  
+        Route::delete('/vehicules/{vehicule:id}', 'destroy')->name('vehicules.destroy');
     });
     Route::controller(ReservationController::class)->group(function () {
         Route::resource('reservations', ReservationController::class)->only(['index', 'create', 'store']);
@@ -55,11 +60,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::put('/maintenances/{maintenance:id}', 'update')->name('maintenances.update');
         Route::delete('/maintenances/{maintenance:id}', 'destroy')->name('maintenances.destroy');
     });
-    //Route::get('index', [AdminController::class, 'dashboard'])->name('admin.index');
-    Route::get('settings', [AdminController::class, 'settings'])->name('admin.settings');
+
+    Route::get('/index', [AdminController::class, 'dashboard'])->name('index');
+    Route::get('settings', [AdminController::class, 'settings'])->name('settings');
 });
 
-Route::get('admin/index', [AdminController::class, 'dashboard'])->name('admin.index');
+Route::get('/vehicules/search', [VehiculeController::class, 'search'])->name('vehicules.search');
+
 
 // Route pour créer un admin (potentiellement pour des tests)
 Route::get('/createAdmin', [AuthController::class, 'createAdmin']);

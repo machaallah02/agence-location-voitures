@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Carbon\Carbon;
 use App\Models\Vehicule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -108,6 +107,32 @@ class VehiculeController extends Controller
     {
         $vehicule->delete();
         return redirect()->route('admin.vehicules.index')->with('success', 'Véhicule supprimé avec succès.');
+    }
+
+
+
+    public function search(Request $request) {
+        $query = Vehicule::query();
+    
+        if ($request->filled('marque')) {
+            $query->where('marque', 'like', "%{$request->marque}%");
+        }
+    
+        if ($request->filled('modele')) {
+            $query->where('modele', 'like', "%{$request->modele}%");
+        }
+    
+        if ($request->filled('année')) {
+            $query->where('année', $request->année);
+        }
+    
+        if ($request->filled('tarif_location')) {
+            $query->where('tarif_location', '<=', $request->tarif_location);
+        }
+    
+        $vehicless = $query->get();
+    
+        return view('home/index', compact('vehicless'));
     }
 
 }

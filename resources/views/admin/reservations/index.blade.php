@@ -36,12 +36,12 @@
                 <td>{{ $reservation->coût_total }}</td>
                 <td>{{ ucfirst($reservation->statut) }}</td>
                 <td>
-                    <a href="{{ route('admin.reservations.show', $reservation->id) }}" class="btn btn-info btn-sm">Voir</a>
-                    <a href="{{ route('admin.reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="{{ route('admin.reservations.show', $reservation->id) }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
+                    <a href="{{ route('admin.reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
                     <form action="{{ route('admin.reservations.destroy', $reservation->id) }}" method="POST" style="display:inline-block;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?')">Supprimer</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?')"><i class="bi bi-trash"></i></button>
                     </form>
                 </td>
             </tr>

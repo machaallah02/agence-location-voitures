@@ -38,12 +38,12 @@
                     <td>{{ $vehicule->statut_disponibilité }}</td>
                     <td>{{ $vehicule->tarif_location }}</td>
                     <td>
-                        <a href="{{ route('admin.vehicules.show', $vehicule->id) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ route('admin.vehicules.edit', $vehicule->id) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{{ route('admin.vehicules.show', $vehicule->id) }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
+                        <a href="{{ route('admin.vehicules.edit', $vehicule->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
                         <form action="{{ route('admin.vehicules.destroy', $vehicule->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')">Supprimer</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')"><i class="bi bi-trash"></i></button>
                         </form>
                     </td>
                 </tr>

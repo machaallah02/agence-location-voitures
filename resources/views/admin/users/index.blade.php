@@ -29,12 +29,12 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->role }}</td>
                 <td>
-                    <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-info">Voir</a>
-                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Modifier</a>
+                    <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-info"><i class="bi bi-eye"></i></a>
+                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
                     </form>
                 </td>
             </tr>

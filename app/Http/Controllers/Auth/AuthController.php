@@ -17,6 +17,13 @@ class AuthController extends Controller
         return view('auth.login'); 
     }
 
+    // logout
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('home');
+    }
+
     public function postLogin(Request $request)
     {
         // Validation des données de connexion
@@ -32,7 +39,6 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
 
-            // Redirection en fonction du rôle de l'utilisateur
             if ($user->role == 'admin') {
                 return redirect()->route('admin.index');
             } elseif ($user->role == 'personnel') {
@@ -72,7 +78,7 @@ class AuthController extends Controller
             'nom' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:4|confirmed',
-            'role' => 'required|string|in:client,personnel,admin',
+            'role' => 'required|string|in:client',
         ]);
 
         $user = User::create([

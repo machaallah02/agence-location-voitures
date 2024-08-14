@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use Inertia\Inertia;
 
 class AdminMiddleware
 {
@@ -15,10 +14,6 @@ class AdminMiddleware
         if (Auth::user() && Auth::user()->role == 'admin') {
             return $next($request);
         }
-
-        // Retourner une réponse Inertia pour l'accès non autorisé
-        return Inertia::render('Error', [
-            'message' => 'Accès non autorisé. Vous n\'avez pas la permission de voir cette page.'
-        ]);
+        return redirect('/home')->with('error', 'Vous n\'avez pas accès à cette ressource.');
     }
 }

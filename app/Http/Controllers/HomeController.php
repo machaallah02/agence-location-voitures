@@ -39,4 +39,5 @@ class HomeController extends Controller
     {
         return Inertia::render('frontend/Register');
     }
+
 }
