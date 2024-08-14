@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
@@ -13,10 +15,16 @@ use App\Http\Controllers\Admin\ReservationController;
 // Route accessible pour tous
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/payment/process/{reservation}', [PaymentController::class, 'process'])->name('payment.process');
+Route::get('/profil/{id}', [ProfileController::class, 'show'])->name('profile')->middleware(['auth']);
+
+
+
 // Route accessible pour les clients connectés uniquement
 Route::middleware(['auth', 'client'])->group(function () {  
 Route::get('/reservation/{vehicule}', [ClientController::class, 'showReservationForm'])->name('reservation');
 Route::post('/reservation', [ClientController::class, 'store'])->name('reservations.store');
+Route::get('/historique', [ClientController::class, 'historique'])->name('historique');
 
 });
 

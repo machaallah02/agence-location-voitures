@@ -20,6 +20,11 @@ class Reservation extends Model
 
     ];
 
+    protected $casts = [
+        'date_debut' => 'date',
+        'date_fin' => 'date',
+    ];
+
 
     public function user()
     {

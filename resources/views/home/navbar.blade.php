@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">MyCar</a>
+    <a class="navbar-brand" href="{{ route('home') }}">MyCar</a>
     
     <div class="d-flex justify-content-end gap-3">
       <a class="text-black cursor-pointer text-decoration-none" href="#">Contactez-nous</a>
@@ -29,41 +29,20 @@
             <a class="nav-link active" aria-current="page" href="#">Tâches</a>
           </li>
           @auth
-    {{-- Afficher les informations du profil --}}
     <li class="nav-item">
         <a class="nav-link" href="#">
             <strong>Nom :</strong> {{ Auth::user()->nom  }}<br>
-            <strong>Email :</strong> {{ Auth::user()->email }}
         </a>
     </li>
-    
-    {{-- Afficher l'historique des réservations --}}
-    @if(Auth::user()->reservations->count() > 0 && Auth::user()->role == 'client')
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="reservationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Historique des réservations
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="reservationDropdown">
-                @foreach(Auth::user()->reservations as $reservation)
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <strong>Véhicule :</strong> {{ $reservation->vehicule->marque }} {{ $reservation->vehicule->modele }}<br>
-                            <strong>Date :</strong> {{ $reservation->date_debut }} - {{ $reservation->date_fin }}<br>
-                            <strong>Coût total :</strong> {{ $reservation->coût_total }} €
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        </li>
-    @else
-        <li class="nav-item">
-            <a class="nav-link" href="#">Pas de réservations</a>
-        </li>
-    @endif
+    <li><hr> 
+      <a class="nav-link cursor-pointer text-decoration-none" href="{{ route('historique') }}"> Historique</a>
+    </li>
 
-    {{-- Bouton de déconnexion --}}
+    <li>
+      <a class="nav-link cursor-pointer text-decoration-none" href="{{ route('profile', Auth::user()->id) }}"> Mon profil</a>
+    </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('logout') }}">Déconnexion</a>
+        <a class="nav-link " href="{{ route('logout') }}">Déconnexion</a>
     </li>
 @endauth
 
