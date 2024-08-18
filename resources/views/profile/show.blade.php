@@ -27,7 +27,7 @@
                     <div class="mb-3">
                         <label class="form-label"><strong>Photo de Profil :</strong></label>
                         <div>
-                            <img src="{{ asset('storage/' . $user->image) }}" alt="Photo de profil" class="img-fluid rounded-circle" width="150">
+                            <img src="{{ $user->image ? asset('storage/' . $user->image) : asset('images/profil.png') }}" alt="Photo de profil" class="img-fluid rounded-circle" width="150">
                         </div>
                     </div>
                     @endif

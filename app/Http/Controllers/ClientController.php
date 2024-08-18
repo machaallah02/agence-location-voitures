@@ -23,14 +23,28 @@ class ClientController extends Controller
         ]);
 
         try {
-
-
             $vehicule = Vehicule::findOrFail($request->vehicule_id);
 
             $dateDebut = new \Carbon\Carbon($request->date_debut);
             $dateFin = new \Carbon\Carbon($request->date_fin);
-            $diffDays = $dateFin->diffInDays($dateDebut);
 
+            // Vérification de la disponibilité du véhicule
+            $existingReservation = Reservation::where('vehicule_id', $vehicule->id)
+                ->where(function ($query) use ($dateDebut, $dateFin) {
+                    $query->whereBetween('date_debut', [$dateDebut, $dateFin])
+                        ->orWhereBetween('date_fin', [$dateDebut, $dateFin])
+                        ->orWhere(function ($query) use ($dateDebut, $dateFin) {
+                            $query->where('date_debut', '<=', $dateDebut)
+                                ->where('date_fin', '>=', $dateFin);
+                        });
+                })
+                ->first();
+
+            if ($existingReservation) {
+                return back()->withErrors(['indisponible' => 'Le véhicule n\'est pas disponible pour la période sélectionnée.']);
+            }
+
+            $diffDays = $dateFin->diffInDays($dateDebut);
             $coût_total = $diffDays * $vehicule->tarif_location;
 
             $reservation = new Reservation();
@@ -48,11 +62,32 @@ class ClientController extends Controller
         }
     }
 
+
     public function historique()
     {
         $reservations = Auth::user()->reservations()->with('vehicule')->get();
         return view('client.historique', compact('reservations'));
     }
-    
 
+    public function checkAvailability(Request $request)
+    {
+        $request->validate([
+            'vehicule_id' => 'required|exists:vehicules,id',
+            'date_debut' => 'required|date|after_or_equal:today',
+            'date_fin' => 'required|date|after_or_equal:date_debut',
+        ]);
+
+        $exists = Reservation::where('vehicule_id', $request->vehicule_id)
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('date_debut', [$request->date_debut, $request->date_fin])
+                    ->orWhereBetween('date_fin', [$request->date_debut, $request->date_fin])
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('date_debut', '<=', $request->date_debut)
+                            ->where('date_fin', '>=', $request->date_fin);
+                    });
+            })
+            ->exists();
+
+        return response()->json(['available' => !$exists]);
+    }
 }

@@ -14,6 +14,6 @@ class AdminMiddleware
         if (Auth::user() && Auth::user()->role == 'admin') {
             return $next($request);
         }
-        return redirect('/home')->with('error', 'Vous n\'avez pas accès à cette ressource.');
+        return redirect('/')->with('error', 'Vous n\'avez pas accès à cette ressource.');
     }
 }

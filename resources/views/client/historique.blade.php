@@ -42,7 +42,10 @@
                             </td>
                             <td>
                                 @if($reservation->statut == 'réservé')
-                                    <a href="{{ route('payment.process', $reservation->id) }}" class="btn btn-warning btn-sm">Payer</a>
+                                    <!-- Bouton pour ouvrir le modal de paiement -->
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#paymentModal" data-reservation-id="{{ $reservation->id }}">
+                                        Payer
+                                    </button>
                                 @else
                                     <span class="text-muted">N/A</span>
                                 @endif
@@ -54,5 +57,52 @@
         </div>
     @endif
 </div>
-    
+
+<!-- Modal de paiement -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="paymentModalLabel">Choisir un mode de paiement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="paymentForm" method="POST" action="">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="paymentMethod" class="form-label">Méthode de paiement</label>
+                        <div class="btn btn-group w-100" data-bs-toggle="buttons">
+                            <label class="btn btn-outline-primary w-100">
+                                <input type="radio" name="payment_method" id="credit_card" value="credit_card" required> Espece
+                            </label>
+                            <label class="btn btn-outline-primary w-100">
+                                <input type="radio" name="payment_method" id="paypal" value="paypal" required> PayPal
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-100">Confirmer le paiement</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script pour gérer l'ouverture du modal avec la réservation associée
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentModal = document.getElementById('paymentModal');
+        const paymentForm = document.getElementById('paymentForm');
+        
+        paymentModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const reservationId = button.getAttribute('data-reservation-id');
+            
+            // Définir l'action du formulaire avec l'ID de la réservation
+            paymentForm.action = `/reservations/${reservationId}/payment`;
+        });
+    });
+</script>
+
 @endsection

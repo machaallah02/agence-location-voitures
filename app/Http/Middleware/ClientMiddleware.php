@@ -22,6 +22,6 @@ class ClientMiddleware
         }
 
         // Redirection ou message d'erreur si l'utilisateur n'est pas autorisé
-        return redirect('/home')->with('error', 'Vous n\'avez pas accès à cette ressource.');
+        return redirect('/')->with('error', 'Vous n\'avez pas accès à cette ressource.');
     }
 }

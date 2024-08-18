@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ route('home') }}">MyCar</a>
+    <a class="navbar-brand" href="{{ route('home') }}">My<span class="text-success">Car</span></a>
     
     <div class="d-flex justify-content-end gap-3">
       <a class="text-black cursor-pointer text-decoration-none" href="#">Contactez-nous</a>
@@ -20,34 +20,41 @@
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">MyCar</h5>
+        <h5 class="offcanvas-title text-bold" id="offcanvasNavbarLabel">My<span class="text-success">Car</span></h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Tâches</a>
-          </li>
-          @auth
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <strong>Nom :</strong> {{ Auth::user()->nom  }}<br>
-        </a>
-    </li>
-    <li><hr> 
-      <a class="nav-link cursor-pointer text-decoration-none" href="{{ route('historique') }}"> Historique</a>
-    </li>
-
-    <li>
-      <a class="nav-link cursor-pointer text-decoration-none" href="{{ route('profile', Auth::user()->id) }}"> Mon profil</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link " href="{{ route('logout') }}">Déconnexion</a>
-    </li>
-@endauth
-
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Tâches</a>
+            </li>
+    
+            @auth
+                <li class="nav-item d-flex align-items-center">
+                    {{-- Affichage de l'image de profil si l'utilisateur est connecté --}}
+                    <a class="nav-link d-flex align-items-center" href="#">
+                        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('images/profil.png') }}" alt="Profil" class="rounded-circle" width="40" height="40">
+                        <span class="ms-2"><strong>{{ Auth::user()->nom }}</strong></span>
+                    </a>
+                </li>
+                <li><hr> 
+                    <a class="nav-link cursor-pointer text-decoration-none" href="{{ route('historique') }}">Historique</a>
+                </li>
+                <li>
+                    <a class="nav-link cursor-pointer text-decoration-none" href="{{ route('profile', Auth::user()->id) }}">Mon profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="{{ route('logout') }}">Déconnexion</a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Se connecter</a>
+                </li>
+            @endauth
         </ul>
-      </div>
+    </div>
+    
+    
     </div>
   </div>
 </nav>

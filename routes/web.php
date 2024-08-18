@@ -25,6 +25,8 @@ Route::middleware(['auth', 'client'])->group(function () {
 Route::get('/reservation/{vehicule}', [ClientController::class, 'showReservationForm'])->name('reservation');
 Route::post('/reservation', [ClientController::class, 'store'])->name('reservations.store');
 Route::get('/historique', [ClientController::class, 'historique'])->name('historique');
+Route::get('/check-availability', [ClientController::class, 'checkAvailability'])->name('check-availability');
+
 
 });
 
