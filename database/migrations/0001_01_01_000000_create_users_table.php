@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['admin', 'personnel', 'client']);
-            //image pour le profile
             $table->string('image')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('adresse')->nullable();
+            $table->string('ville')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

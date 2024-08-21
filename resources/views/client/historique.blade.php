@@ -13,7 +13,7 @@
         </div>
     @else
         <div class="table-responsive">
-            <table class="table table-striped table-hover">
+            <table class="table table-bordered table-hover align-middle">
                 <thead class="bg-primary text-white">
                     <tr>
                         <th>Véhicule</th>
@@ -27,11 +27,14 @@
                 <tbody>
                     @foreach($reservations as $reservation)
                         <tr>
-                            <td>{{ $reservation->vehicule->marque }} {{ $reservation->vehicule->modele }}</td>
-                            <td>{{ $reservation->date_debut->format('d/m/Y') }}</td>
-                            <td>{{ $reservation->date_fin->format('d/m/Y') }}</td>
-                            <td>{{ $reservation->coût_total }} €</td>
-                            <td>
+                            <td class="text-center">
+                                <strong>{{ $reservation->vehicule->marque }}</strong><br>
+                                <small>{{ $reservation->vehicule->modele }}</small>
+                            </td>
+                            <td class="text-center">{{ $reservation->date_debut->format('d/m/Y') }}</td>
+                            <td class="text-center">{{ $reservation->date_fin->format('d/m/Y') }}</td>
+                            <td class="text-center">{{ number_format($reservation->coût_total, 2, ',', ' ') }} €</td>
+                            <td class="text-center">
                                 @if($reservation->statut == 'réservé')
                                     <span class="badge bg-success">{{ ucfirst($reservation->statut) }}</span>
                                 @elseif($reservation->statut == 'annulé')
@@ -40,12 +43,17 @@
                                     <span class="badge bg-secondary">{{ ucfirst($reservation->statut) }}</span>
                                 @endif
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @if($reservation->statut == 'réservé')
-                                    <!-- Bouton pour ouvrir le modal de paiement -->
-                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#paymentModal" data-reservation-id="{{ $reservation->id }}">
-                                        Payer
+                                <form action="{{ route('reservation.payment', $reservation->id) }}" method="POST" style="display:inline-block">
+                                    @csrf
+                                    <button class="btn btn-warning btn-sm pay-btn" 
+                                    id="pay-btn" 
+                                    data-reservation-id="{{ $reservation->id }}" 
+                                    data-amount="{{ $reservation->coût_total }}">
+                                        <i class="fas fa-credit-card"></i> Payer
                                     </button>
+                                </form>
                                 @else
                                     <span class="text-muted">N/A</span>
                                 @endif
@@ -58,49 +66,28 @@
     @endif
 </div>
 
-<!-- Modal de paiement -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="paymentModalLabel">Choisir un mode de paiement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="paymentForm" method="POST" action="">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="paymentMethod" class="form-label">Méthode de paiement</label>
-                        <div class="btn btn-group w-100" data-bs-toggle="buttons">
-                            <label class="btn btn-outline-primary w-100">
-                                <input type="radio" name="payment_method" id="credit_card" value="credit_card" required> Espece
-                            </label>
-                            <label class="btn btn-outline-primary w-100">
-                                <input type="radio" name="payment_method" id="paypal" value="paypal" required> PayPal
-                            </label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100">Confirmer le paiement</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
 
-<script>
-    // Script pour gérer l'ouverture du modal avec la réservation associée
-    document.addEventListener('DOMContentLoaded', function () {
-        const paymentModal = document.getElementById('paymentModal');
-        const paymentForm = document.getElementById('paymentForm');
-        
-        paymentModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const reservationId = button.getAttribute('data-reservation-id');
+<script type="text/javascript">
+    const widgets = FedaPay.init({
+        public_key: 'pk_live_oASp_C5tAp4pECRBaUP4BZmq'
+    });
+
+    document.querySelectorAll('.pay-btn').forEach(btn => {
+        btn.addEventListener('click', function(event) {
+            event.preventDefault(); // Empêche le rechargement de la page
             
-            // Définir l'action du formulaire avec l'ID de la réservation
-            paymentForm.action = `/reservations/${reservationId}/payment`;
+            const reservationId = btn.getAttribute('data-reservation-id');
+            const amount = btn.getAttribute('data-amount');
+            
+            // Configuration du widget de paiement
+            widgets.open({
+                transaction: {
+                    amount: amount * 100, // Conversion en centimes
+                    currency: 'XOF', // Exemple de devise
+                    description: `Paiement pour la réservation #${reservationId}`
+                }
+            });
         });
     });
 </script>

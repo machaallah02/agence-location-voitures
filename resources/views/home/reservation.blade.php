@@ -51,58 +51,66 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const dateDebutInput = document.getElementById('date_debut');
-    const dateFinInput = document.getElementById('date_fin');
-    const costSection = document.getElementById('costSection');
-    const totalCostElement = document.getElementById('totalCost');
-    const vehiculeId = '{{ $vehicule->id }}';
+        const dateDebutInput = document.getElementById('date_debut');
+        const dateFinInput = document.getElementById('date_fin');
+        const costSection = document.getElementById('costSection');
+        const totalCostElement = document.getElementById('totalCost');
+        const vehiculeId = '{{ $vehicule->id }}';
 
-    dateDebutInput.addEventListener('change', calculateCost);
-    dateFinInput.addEventListener('change', calculateCost);
+        dateDebutInput.addEventListener('change', calculateCost);
+        dateFinInput.addEventListener('change', calculateCost);
 
-    function calculateCost() {
-        const dateDebut = new Date(dateDebutInput.value);
-        const dateFin = new Date(dateFinInput.value);
+        function calculateCost() {
+            const dateDebut = new Date(dateDebutInput.value);
+            const dateFin = new Date(dateFinInput.value);
 
-        if (dateDebut && dateFin && dateDebut < dateFin) {
-            const diffTime = Math.abs(dateFin - dateDebut);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            console.log('Date Début:', dateDebut);
+            console.log('Date Fin:', dateFin);
 
-            const vehicleRate = parseFloat('{{ $vehicule->tarif_location }}');
-            const totalCost = diffDays * vehicleRate;
+            if (dateDebut && dateFin && dateDebut < dateFin) {
+                const diffTime = Math.abs(dateFin - dateDebut);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-            fetch(`{{ route('check-availability') }}?vehicule_id=${vehiculeId}&date_debut=${dateDebutInput.value}&date_fin=${dateFinInput.value}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.available) {
-                        totalCostElement.textContent = totalCost.toFixed(2);
-                        costSection.innerHTML = `
-                            <div class="d-flex justify-content-center gap-3">
-                                <button type="submit" class="btn btn-success px-4 py-2">Confirmer</button>
-                                <a class="btn btn-info px-4 py-2" href="{{ route('home') }}">Annuler</a>
-                            </div>
-                        `;
-                        costSection.classList.remove('d-none');
-                    } else {
-                        totalCostElement.textContent = '';
-                        costSection.innerHTML = `
-                            <div class="alert alert-danger text-center">
-                                Le véhicule n'est pas disponible pour cette période.
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-info px-4 py-2" href="{{ route('home') }}">Retour à l'accueil</a>
-                            </div>
-                        `;
-                        costSection.classList.remove('d-none');
-                    }
-                })
-                .catch(error => console.error('Erreur:', error));
-        } else {
-            costSection.classList.add('d-none');
+                const vehicleRate = parseFloat('{{ $vehicule->tarif_location }}');
+                const totalCost = diffDays * vehicleRate;
+
+                console.log('Total Cost:', totalCost);
+
+                fetch(`{{ route('check-availability') }}?vehicule_id=${vehiculeId}&date_debut=${dateDebutInput.value}&date_fin=${dateFinInput.value}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('API Response:', data);
+
+                        if (data.available) {
+                            totalCostElement.textContent = totalCost.toFixed(2);
+                            costSection.innerHTML = `
+                                <h3 class="mb-4"><strong>Coût Total :</strong> <span id="totalCost" class="text-primary" style="color: #ffc107;">${totalCost.toFixed(2)}</span> €</h3>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <button type="submit" class="btn btn-success px-4 py-2">Confirmer</button>
+                                    <a class="btn btn-info px-4 py-2" href="{{ route('home') }}">Annuler</a>
+                                </div>
+                            `;
+                            costSection.classList.remove('d-none');
+                        } else {
+                            totalCostElement.textContent = '';
+                            costSection.innerHTML = `
+                                <div class="alert alert-danger text-center">
+                                    Le véhicule n'est pas disponible pour cette période.
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-info px-4 py-2" href="{{ route('home') }}">Retour à l'accueil</a>
+                                </div>
+                            `;
+                            costSection.classList.remove('d-none');
+                        }
+                    })
+                    .catch(error => console.error('Erreur:', error));
+            } else {
+                costSection.classList.add('d-none');
+            }
         }
-    }
-});
-
+    });
 </script>
+
 
 @endsection

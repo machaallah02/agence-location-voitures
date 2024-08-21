@@ -6,6 +6,18 @@
 <div id="main" class="main">
     <h1>Modifier l'utilisateur</h1>
 
+    <!-- Affichage des messages d'erreur globaux -->
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+    @endif
+
     <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
         @csrf
         @method('PUT')

@@ -15,8 +15,18 @@ use App\Http\Controllers\Admin\ReservationController;
 // Route accessible pour tous
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::post('/reservations/{reservationId}/payment', [PaymentController::class, 'pay'])->name('reservation.payment');
+Route::get('/payment/callback/{reservationId}', [PaymentController::class, 'callback'])->name('payment.callback');
+
+
+
+
 Route::get('/payment/process/{reservation}', [PaymentController::class, 'process'])->name('payment.process');
 Route::get('/profil/{id}', [ProfileController::class, 'show'])->name('profile')->middleware(['auth']);
+Route::get('/profil/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profil/{id}', [ProfileController::class, 'update'])->name('profile.update');
+
+
 
 
 
@@ -73,6 +83,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/index', [AdminController::class, 'dashboard'])->name('index');
     Route::get('settings', [AdminController::class, 'settings'])->name('settings');
+    Route::get('profile', [AdminController::class, 'profile'])->name('profile');
 });
 
 Route::get('/vehicules/search', [VehiculeController::class, 'search'])->name('vehicules.search');

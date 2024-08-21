@@ -45,7 +45,7 @@ class ClientController extends Controller
             }
 
             $diffDays = $dateFin->diffInDays($dateDebut);
-            $coût_total = $diffDays * $vehicule->tarif_location;
+$coût_total = $diffDays * $vehicule->tarif_location;
 
             $reservation = new Reservation();
             $reservation->user_id = Auth()->user()->id;

@@ -28,10 +28,10 @@
         </ul>
       </li><!-- End Components Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-people-fill"></i><span>Reservation</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#res-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-clipboard"></i><span>Reservation</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="res-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href={{route('admin.reservations.index')}}>
               <i class="bi bi-person-lines-fill"></i><span>liste</span>
@@ -46,10 +46,10 @@
       </li>
       
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-people-fill"></i><span>Vehicules</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#vehicule-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-command"></i><span>Vehicules</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="vehicule-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href={{route('admin.vehicules.index')}}>
               <i class="bi bi-person-lines-fill"></i><span>liste</span>
@@ -86,18 +86,12 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+        <a class="nav-link collapsed" href="{{route('admin.profile')}}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
 
      
 
