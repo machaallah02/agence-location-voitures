@@ -39,7 +39,7 @@
         </div>
         
         <div id="costSection" class="d-none text-center mt-4">
-            <h3 class="mb-4"><strong>Coût Total :</strong> <span id="totalCost" class="text-primary" style="color: #ffc107;"></span> €</h3>
+            <h3 class="mb-4"><strong>Coût Total :</strong> <span id="totalCost" class="text-primary" style="color: #ffc107;"></span> franc CFA</h3>
             <div class="d-flex justify-content-center gap-3">
                 <button type="submit" class="btn btn-success px-4 py-2">Confirmer</button>
                 <a class="btn btn-info px-4 py-2 " href="{{ route('home') }}">Annuler</a>
@@ -84,7 +84,7 @@
                         if (data.available) {
                             totalCostElement.textContent = totalCost.toFixed(2);
                             costSection.innerHTML = `
-                                <h3 class="mb-4"><strong>Coût Total :</strong> <span id="totalCost" class="text-primary" style="color: #ffc107;">${totalCost.toFixed(2)}</span> €</h3>
+                                <h3 class="mb-4"><strong>Coût Total :</strong> <span id="totalCost" class="text-primary" style="color: #ffc107;">${totalCost.toFixed(2)}</span> franc CFA </h3>
                                 <div class="d-flex justify-content-center gap-3">
                                     <button type="submit" class="btn btn-success px-4 py-2">Confirmer</button>
                                     <a class="btn btn-info px-4 py-2" href="{{ route('home') }}">Annuler</a>

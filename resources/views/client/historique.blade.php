@@ -33,7 +33,7 @@
                             </td>
                             <td class="text-center">{{ $reservation->date_debut->format('d/m/Y') }}</td>
                             <td class="text-center">{{ $reservation->date_fin->format('d/m/Y') }}</td>
-                            <td class="text-center">{{ number_format($reservation->coût_total, 2, ',', ' ') }} €</td>
+                            <td class="text-center">{{ number_format($reservation->coût_total, 2, ',', ' ') }} franc CFA</td>
                             <td class="text-center">
                                 @if($reservation->statut == 'réservé')
                                     <span class="badge bg-success">{{ ucfirst($reservation->statut) }}</span>

@@ -14,8 +14,8 @@ class PaymentController extends Controller
     public function pay(Request $request, $reservationId)
     {
         // Configure FedaPay
-        FedaPay::setApiKey('sk_live_ZXVhYKPlJYvWxpylHc5uZ2BM');
-        FedaPay::setEnvironment('live'); 
+        FedaPay::setApiKey('FEDAPAY_SECRET_KEY');
+        FedaPay::setEnvironment('FEDAPAY_MODE'); 
     
         // Validation des données d'entrée
         $validatedData = $request->validate([

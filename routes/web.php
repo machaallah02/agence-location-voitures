@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\VehiculeController;
 use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\ReservationController;
 
-// Route accessible pour tous
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/reservations/{reservationId}/payment', [PaymentController::class, 'pay'])->name('reservation.payment');
@@ -30,7 +29,6 @@ Route::put('/profil/{id}', [ProfileController::class, 'update'])->name('profile.
 
 
 
-// Route accessible pour les clients connectés uniquement
 Route::middleware(['auth', 'client'])->group(function () {  
 Route::get('/reservation/{vehicule}', [ClientController::class, 'showReservationForm'])->name('reservation');
 Route::post('/reservation', [ClientController::class, 'store'])->name('reservations.store');
@@ -40,17 +38,14 @@ Route::get('/check-availability', [ClientController::class, 'checkAvailability']
 
 });
 
-// Routes pour la connexion et l'inscription
+
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'postLogin']);
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
-
-// Route pour la deconnexion
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Routes administratives protégées
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::resource('users', UserController::class)->only(['index', 'create', 'store']);
@@ -88,6 +83,4 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 Route::get('/vehicules/search', [VehiculeController::class, 'search'])->name('vehicules.search');
 
-
-// Route pour créer un admin (potentiellement pour des tests)
 Route::get('/createAdmin', [AuthController::class, 'createAdmin']);
