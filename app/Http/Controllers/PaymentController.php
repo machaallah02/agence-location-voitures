@@ -49,8 +49,10 @@ class PaymentController extends Controller
         }
     }
     
+
+
     public function callback(Request $request, $reservationId)
     {
-        // Gérer le retour du paiement ici
     }
+
 }
