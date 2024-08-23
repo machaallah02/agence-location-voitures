@@ -14,8 +14,8 @@ class PaymentController extends Controller
     public function pay(Request $request, $reservationId)
     {
         // Configure FedaPay
-        FedaPay::setApiKey('FEDAPAY_SECRET_KEY');
-        FedaPay::setEnvironment('FEDAPAY_MODE'); 
+        FedaPay::setApiKey(env('FEDAPAY_SECRET_KEY'));
+        FedaPay::setEnvironment(env('FEDAPAY_MODE')); 
     
         // Validation des données d'entrée
         $validatedData = $request->validate([
@@ -49,10 +49,8 @@ class PaymentController extends Controller
         }
     }
     
-
-
     public function callback(Request $request, $reservationId)
     {
+        // Gérer le retour du paiement ici
     }
-
 }
