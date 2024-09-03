@@ -39,7 +39,8 @@ Route::get('/reservation/{vehicule}', [ClientController::class, 'showReservation
 Route::post('/reservation', [ClientController::class, 'store'])->name('reservations.store');
 Route::get('/historique', [ClientController::class, 'historique'])->name('historique');
 Route::get('/check-availability', [ClientController::class, 'checkAvailability'])->name('check-availability');
-
+// reservation details
+Route::get('/reservations/{reservation:id}/details', [ClientController::class, 'showReservationDetails'])->name('reservations.details');
 
 });
 
