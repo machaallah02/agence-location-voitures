@@ -56,17 +56,11 @@ class ClientController extends Controller
             $reservation->statut = 'réservé';
             $reservation->save();
 
-            // Envoi de l'email de confirmation
             Mail::send('emails.reservation', ['user' => Auth::user(), 'reservation' => $reservation], function ($message) use ($reservation) {
                 $message->to(Auth::user()->email)
                         ->subject('Confirmation de Réservation - ' . $reservation->vehicule->marque . ' ' . $reservation->vehicule->modele);
             });
-
-            // Redirection avec le paramètre vehicule
             return redirect()->route('home')->with('success', 'Réservation confirmée! Un email de confirmation vous a été envoyé.');
-        } catch (\Exception $e) {
-            return redirect()->route('reservation', ['vehicule' => $vehicule->id])->with('error', 'Une erreur s\'est produite.');
-        }
     }
 
 
