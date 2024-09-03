@@ -6,6 +6,7 @@ use App\Models\Vehicule;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ClientController extends Controller
 {
@@ -28,7 +29,6 @@ class ClientController extends Controller
             $dateDebut = new \Carbon\Carbon($request->date_debut);
             $dateFin = new \Carbon\Carbon($request->date_fin);
 
-            // Vérification de la disponibilité du véhicule
             $existingReservation = Reservation::where('vehicule_id', $vehicule->id)
                 ->where(function ($query) use ($dateDebut, $dateFin) {
                     $query->whereBetween('date_debut', [$dateDebut, $dateFin])
@@ -45,10 +45,10 @@ class ClientController extends Controller
             }
 
             $diffDays = $dateFin->diffInDays($dateDebut);
-$coût_total = $diffDays * $vehicule->tarif_location;
+            $coût_total = $diffDays * $vehicule->tarif_location;
 
             $reservation = new Reservation();
-            $reservation->user_id = Auth()->user()->id;
+            $reservation->user_id = Auth::user()->id;
             $reservation->vehicule_id = $vehicule->id;
             $reservation->date_debut = $request->date_debut;
             $reservation->date_fin = $request->date_fin;
@@ -56,9 +56,16 @@ $coût_total = $diffDays * $vehicule->tarif_location;
             $reservation->statut = 'réservé';
             $reservation->save();
 
-            return redirect()->route('home')->with('success', 'Réservation confirmée!');
+            // Envoi de l'email de confirmation
+            Mail::send('emails.reservation', ['user' => Auth::user(), 'reservation' => $reservation], function ($message) use ($reservation) {
+                $message->to(Auth::user()->email)
+                        ->subject('Confirmation de Réservation - ' . $reservation->vehicule->marque . ' ' . $reservation->vehicule->modele);
+            });
+
+            // Redirection avec le paramètre vehicule
+            return redirect()->route('home')->with('success', 'Réservation confirmée! Un email de confirmation vous a été envoyé.');
         } catch (\Exception $e) {
-            return redirect()->route('reservation')->with('error', 'Une erreur s\'est produite.');
+            return redirect()->route('reservation', ['vehicule' => $vehicule->id])->with('error', 'Une erreur s\'est produite.');
         }
     }
 
@@ -89,5 +96,14 @@ $coût_total = $diffDays * $vehicule->tarif_location;
             ->exists();
 
         return response()->json(['available' => !$exists]);
+    }
+
+    public function index(){
+        return view('clientAd.index');
+    }
+
+    public function profile(){
+        $user = Auth::user();
+        return view('clientAd.profile', compact('user'));
     }
 }

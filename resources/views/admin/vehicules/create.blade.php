@@ -28,6 +28,46 @@
         </div>
 
         <div class="form-group">
+            <label for="couleur">Couleur</label>
+            <input type="text" name="couleur" id="couleur" class="form-control" value="{{ old('couleur') }}" required>
+            @error('couleur') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="type">Type de Véhicule</label>
+            <select name="type" id="type" class="form-control" required>
+                <option value="4x4" >4x4</option>
+                <option value="petit" >Petit</option>
+                <option value="grand" >Grand</option>
+            </select>
+            @error('type') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="vitesse_max">vitesse max</label>
+            <input type="number" name="vitesse_max" id="vitesse_max" class="form-control" value="{{ old('vitesse_max') }}" required>
+            @error('vitesse_max') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="puissance">Puissance</label>
+            <input type="number" name="puissance" id="puissance" class="form-control" value="{{ old('puissance') }}" required>
+            @error('puissance') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="controle">Controle</label>
+            <input type="text" name="controle" id="controle" class="form-control" value="{{ old('controle') }}" required>
+            @error('controle') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="carburant">Carburant</label>
+            <input type="text" name="carburant" id="carburant" class="form-control" value="{{ old('carburant') }}" required>
+            @error('carburant') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="form-group">
             <label for="numéro_immatriculation">Numéro d'Imma</label>
             <input type="text" name="numéro_immatriculation" id="numéro_immatriculation" class="form-control" value="{{ old('numéro_immatriculation') }}" required>
             @error('numéro_immatriculation') <span class="text-danger">{{ $message }}</span> @enderror
@@ -41,7 +81,7 @@
             </select>
             @error('statut_disponibilité') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
-        
+
 
         <div class="form-group">
             <label for="tarif_location">Tarif Location</label>

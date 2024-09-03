@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     public function login()
     {
-        return view('auth.login'); 
+        return view('auth.login');
     }
 
     // logout
@@ -42,16 +42,13 @@ class AuthController extends Controller
             if ($user->role == 'admin') {
                 return redirect()->route('admin.index');
             } elseif ($user->role == 'personnel') {
-                return redirect()->route('home'); 
+                return redirect()->route('home');
             } elseif ($user->role == 'client') {
-                // Redirection pour les clients avec un message d'information
                 return redirect()->route('home')->with('success', 'Vous êtes connecté en tant que client.');
             } else {
-                // Gestion d'un rôle non défini
                 return redirect()->route('login')->withErrors(['error' => 'Rôle utilisateur non reconnu.']);
             }
         } else {
-            // Gestion de l'échec de connexion
             return redirect()->route('login')->withErrors(['email' => 'Identifiants invalides.']);
         }
     }
@@ -93,6 +90,6 @@ class AuthController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('auth.register'); 
+        return view('auth.register');
     }
 }

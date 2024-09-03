@@ -12,10 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vehicules', function (Blueprint $table) {
-            $table->id(); 
+            $table->id();
             $table->string('marque');
             $table->string('modele');
             $table->year('année');
+            $table->string('couleur');
+            $table->enum('carburant', ['essence', 'diesel', 'électrique', 'hybride']);
+            $table->enum('type', ['4x4', 'petit', 'grand']);
+            $table->string('puissance');
+            $table->string('vitesse_max');
+            $table->enum('controle', ['manuel', 'auto']);
             $table->string('numéro_immatriculation')->unique();
             $table->boolean('statut_disponibilité')->default(true);
             $table->decimal('tarif_location', 10, 2);

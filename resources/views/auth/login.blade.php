@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <title>Carbook - Login</title>
+    <title>Carbook - Connexion</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    {{-- lien bootstrap cdn--}}
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
 
     <style>
         body {
@@ -89,37 +96,21 @@
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light navbarcolor shadow">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">MyCar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Login Form -->
+    <!-- Formulaire de connexion -->
     <div class="login-container">
         <div class="login-box">
-            <h2>Login</h2>
+            <h2>Connexion</h2>
 
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
-            <!-- Formulaire de connexion -->
+
             <form action="{{ route('login') }}" method="POST">
                 @csrf
 
-                <!-- Affichage des erreurs -->
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -131,26 +122,26 @@
                 @endif
 
                 <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email" value="{{ old('email') }}" required>
+                    <label for="email">Adresse Email</label>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Entrez votre email" value="{{ old('email') }}" required>
                 </div>
 
                 <div class="form-group position-relative">
-                    <label for="password">Password</label>
-                    <input id="password-field" type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                    <label for="password">Mot de passe</label>
+                    <input id="password-field" type="password" name="password" class="form-control" placeholder="Entrez votre mot de passe" required>
                     <span toggle="#password-field" class="fa fa-fw fa-eye toggle-password position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);"></span>
                 </div>
 
                 <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="remember">Remember Me</label>
+                    <label class="form-check-label" for="remember">Se souvenir de moi</label>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Sign In</button>
+                <button type="submit" class="btn btn-primary">Se connecter</button>
 
-                <a href="#" class="forgot-password">Forgot Password?</a>
+                <a href="#" class="forgot-password">Mot de passe oublié?</a>
 
-                <p class="sign-up-link">Not a member? <a href="{{ route('register.form') }}">Sign Up</a></p>
+                <p class="sign-up-link">Pas encore membre? <a href="{{ route('register.form') }}">Inscrivez-vous</a></p>
             </form>
         </div>
     </div>
@@ -158,6 +149,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/toastr.min.js') }}"></script>
     <script>
         // Script pour basculer l'affichage du mot de passe
         $(".toggle-password").click(function() {
@@ -169,19 +161,14 @@
                 input.attr("type", "password");
             }
         });
+
+        @if (Session::has('success'))
+            toastr.success("{{ Session::get('success') }}");
+        @endif
+
+        @if (Session::has('error'))
+            toastr.error("{{ Session::get('error') }}");
+        @endif
     </script>
-     @if (Session::has('success'))
-     <script>
-         toastr.success("{{ Session::get('success') }}");
- 
-     </script>
-               @endif
- 
-     @if (Session::has('error'))
-     <script>
-         toastr.error("{{ Session::get('error') }}");
- 
-     </script>
-               @endif
 </body>
 </html>

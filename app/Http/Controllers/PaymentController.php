@@ -7,52 +7,51 @@ use FedaPay\FedaPay;
 use FedaPay\Transaction;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
-    // PaymentController.php
-    public function pay(Request $request, $reservationId)
-    {
-        // Configure FedaPay
-        FedaPay::setApiKey(env('FEDAPAY_SECRET_KEY'));
-        FedaPay::setEnvironment(env('FEDAPAY_MODE')); 
-    
-        // Validation des données d'entrée
+    public function pay(Request $request, $id)
+{
+    try {
         $validatedData = $request->validate([
-            'amount' => 'required|numeric|min:1',
+            'montant' => 'required|numeric|min:10',
         ]);
-    
-        try {
-            // Création de la transaction avec FedaPay
-            $transaction = Transaction::create([
-                'description' => 'Paiement pour la réservation #' . $reservationId,
-                'amount' => $validatedData['amount'],
-                'currency' => 'XOF',
-                'callback_url' => route('payment.callback', ['reservationId' => $reservationId]),
-                'customer' => [
-                    'firstname' => 'John',
-                    'lastname' => 'Doe',
-                    'email' => 'john.doe@example.com',
-                    'phone_number' => '+22990000000'
-                ]
-            ]);
-    
-            // Génération du token pour le Checkout
-            $token = $transaction->generateToken();
-    
-            return redirect($token->url);
-            
-        } catch (\Exception $e) {
-    
-            // Redirection avec message d'erreur
-            return redirect()->back()->withErrors(['payment' => 'Une erreur s\'est produite lors du paiement. Veuillez réessayer.']);
-        }
-    }
-    
+        $reservation = Reservation::findOrFail($id);
 
+        FedaPay::setApiKey(env('FEDAPAY_SECRET_KEY'));
+        FedaPay::setEnvironment(env('FEDAPAY_MODE'));
+
+        $user = Auth::user();
+        $transaction = Transaction::create([
+            'description' => 'Paiement pour la réservation #' . $reservation->id,
+            'montant' => $validatedData['montant'],
+            'currency' => 'XOF',
+            'callback_url' => route('payment.callback', ['reservationId' => $reservation->id]),
+            'customer' => [
+                'firstname' => $user->nom,
+                'lastname' => $user->nom,
+                'email' => $user->email,
+                'phone_number' => $user->telephone ?? null,
+            ]
+        ]);
+
+        $token = $transaction->generateToken();
+
+        return response()->json([
+            'token_url' => $token->url
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Erreur lors du paiement. Veuillez réessayer.',
+            'details' => $e->getMessage()
+        ], 500);
+    }
+}
 
     public function callback(Request $request, $reservationId)
     {
-    }
+ }
 
 }

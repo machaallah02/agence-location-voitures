@@ -14,8 +14,10 @@ use App\Http\Controllers\Admin\ReservationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('/reservations/{reservationId}/payment', [PaymentController::class, 'pay'])->name('reservation.payment');
+Route::post('/reservation/{id}/pay', [PaymentController::class, 'pay'])->name('reservation.pay');
 Route::get('/payment/callback/{reservationId}', [PaymentController::class, 'callback'])->name('payment.callback');
+Route::get('/vehicule/{id}', [VehiculeController::class, 'showDetails'])->name('vehicule.details');
+Route::get('/vehicules', [VehiculeController::class, 'showAll'])->name('vehicules');
 
 
 
@@ -29,7 +31,10 @@ Route::put('/profil/{id}', [ProfileController::class, 'update'])->name('profile.
 
 
 
-Route::middleware(['auth', 'client'])->group(function () {  
+Route::middleware(['auth', 'client'])->group(function () {
+    //admin client
+Route::get('client/profile', [ClientController::class, 'profile'])->name('profile');
+Route::get('/admin/client', [ClientController::class, 'index'])->name('client');
 Route::get('/reservation/{vehicule}', [ClientController::class, 'showReservationForm'])->name('reservation');
 Route::post('/reservation', [ClientController::class, 'store'])->name('reservations.store');
 Route::get('/historique', [ClientController::class, 'historique'])->name('historique');
@@ -68,13 +73,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::put('/reservations/{reservation:id}', 'update')->name('reservations.update');
         Route::delete('/reservations/{reservation:id}', 'destroy')->name('reservations.destroy');
     });
-    Route::controller(MaintenanceController::class)->group(function () {
-        Route::resource('maintenances', MaintenanceController::class)->only(['index', 'create', 'store']);
-        Route::get('/maintenances/{maintenance:id}/show', 'show')->name('maintenances.show');
-        Route::get('/maintenances/{maintenance:id}', 'edit')->name('maintenances.edit');
-        Route::put('/maintenances/{maintenance:id}', 'update')->name('maintenances.update');
-        Route::delete('/maintenances/{maintenance:id}', 'destroy')->name('maintenances.destroy');
-    });
+    Route::resource('/maintenances', MaintenanceController::class);
 
     Route::get('/index', [AdminController::class, 'dashboard'])->name('index');
     Route::get('settings', [AdminController::class, 'settings'])->name('settings');

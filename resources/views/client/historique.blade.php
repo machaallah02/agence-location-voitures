@@ -1,12 +1,12 @@
-@extends('base')
+@extends('clientAd.base')
 
 @section('title', 'Historique')
 
 @section('content')
-
+<main id="main" class="main">
 <div class="container my-5">
     <h1 class="text-center mb-5">Historique des Réservations</h1>
-    
+
     @if($reservations->isEmpty())
         <div class="alert alert-info text-center">
             Vous n'avez aucune réservation pour le moment.
@@ -20,6 +20,7 @@
                         <th>Date de début</th>
                         <th>Date de fin</th>
                         <th>Coût Total</th>
+                        <th>Date</th>
                         <th>Statut</th>
                         <th>Paiement</th>
                     </tr>
@@ -34,6 +35,7 @@
                             <td class="text-center">{{ $reservation->date_debut->format('d/m/Y') }}</td>
                             <td class="text-center">{{ $reservation->date_fin->format('d/m/Y') }}</td>
                             <td class="text-center">{{ number_format($reservation->coût_total, 2, ',', ' ') }} franc CFA</td>
+                            <td class="text-center">{{ $reservation->created_at }}</td>
                             <td class="text-center">
                                 @if($reservation->statut == 'réservé')
                                     <span class="badge bg-success">{{ ucfirst($reservation->statut) }}</span>
@@ -45,12 +47,11 @@
                             </td>
                             <td class="text-center">
                                 @if($reservation->statut == 'réservé')
-                                <form action="{{ route('reservation.payment', $reservation->id) }}" method="POST" style="display:inline-block">
+                                <form action="{{ route('reservation.pay', $reservation->id) }}" method="POST" class="payment-form">
                                     @csrf
-                                    <button class="btn btn-warning btn-sm pay-btn" 
-                                    id="pay-btn" 
-                                    data-reservation-id="{{ $reservation->id }}" 
-                                    data-amount="{{ $reservation->coût_total }}">
+                                    <input type="hidden" name="montant" value="{{ number_format($reservation->coût_total, 2, '.', '') }}">
+                                    <button class="btn btn-warning btn-sm w-100" type="submit"
+                                            onclick="return confirm('Voulez-vous payer cette_reservation ?')">
                                         <i class="fas fa-credit-card"></i> Payer
                                     </button>
                                 </form>
@@ -67,29 +68,7 @@
 </div>
 
 <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
+</main>
 
-<script type="text/javascript">
-    const widgets = FedaPay.init({
-        public_key: 'pk_live_oASp_C5tAp4pECRBaUP4BZmq'
-    });
-
-    document.querySelectorAll('.pay-btn').forEach(btn => {
-        btn.addEventListener('click', function(event) {
-            event.preventDefault(); // Empêche le rechargement de la page
-            
-            const reservationId = btn.getAttribute('data-reservation-id');
-            const amount = btn.getAttribute('data-amount');
-            
-            // Configuration du widget de paiement
-            widgets.open({
-                transaction: {
-                    amount: amount * 100, // Conversion en centimes
-                    currency: 'XOF', // Exemple de devise
-                    description: `Paiement pour la réservation #${reservationId}`
-                }
-            });
-        });
-    });
-</script>
 
 @endsection

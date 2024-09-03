@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         $vehicules = Vehicule::all();
-        return view('home/index', compact('vehicules'));
+        return view('home/index1', compact('vehicules'));
     }
 
     // Méthode pour la page d'accueil des clients connectés
