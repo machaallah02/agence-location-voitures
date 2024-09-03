@@ -22,8 +22,6 @@ class ClientController extends Controller
             'date_debut' => 'required|date|after_or_equal:today',
             'date_fin' => 'required|date|after_or_equal:date_debut',
         ]);
-
-        try {
             $vehicule = Vehicule::findOrFail($request->vehicule_id);
 
             $dateDebut = new \Carbon\Carbon($request->date_debut);

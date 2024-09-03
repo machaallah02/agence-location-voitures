@@ -451,7 +451,7 @@
 
             <div class="brands-grid brands-grid_3col">
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/g1.jpg" alt="Coupe"></a>
+                    <a href="#"><img src="images/pngegg (1).png" alt="Coupe"></a>
                     <span>Coupe</span>
                 </div>
                 <div class="brands-grid-item">
@@ -459,18 +459,18 @@
                     <span>SUV</span>
                 </div>
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/g3.jpg" alt="Hybride"></a>
+                    <a href="#"><img src="images/pngegg (2).png" alt="Hybride"></a>
                     <span>Hybride</span>
                 </div>
             </div>
 
             <div class="brands-grid brands-grid_2col">
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/g4.jpg" alt="Berline"></a>
+                    <a href="#"><img src="images/pngegg.png" alt="Berline"></a>
                     <span>Berline</span>
                 </div>
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/g5.jpg" alt="Sport"></a>
+                    <a href="#"><img src="images/s3.jpg" alt="Sport"></a>
                     <span>Sport</span>
                 </div>
             </div>
