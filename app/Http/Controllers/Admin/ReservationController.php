@@ -32,9 +32,9 @@ class ReservationController extends Controller
         return view('admin.reservations.create', compact('users', 'vehicules'));
     }
 
-    // Enregistrer une nouvelle réservation
     public function store(Request $request)
     {
+        try {
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'vehicule_id' => 'required|exists:vehicules,id',
@@ -54,6 +54,9 @@ class ReservationController extends Controller
         ]);
 
         return redirect()->route('admin.reservations.index')->with('success', 'Réservation créée avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     // Afficher le formulaire pour éditer une réservation
@@ -67,6 +70,7 @@ class ReservationController extends Controller
     // Mettre à jour une réservation
     public function update(Request $request, Reservation $reservation)
     {
+        try {
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'vehicule_id' => 'required|exists:vehicules,id',
@@ -86,6 +90,10 @@ class ReservationController extends Controller
         ]);
 
         return redirect()->route('admin.reservations.index')->with('success', 'Réservation mise à jour avec succès.');
+        } catch (\Exception $e) {
+
+            return redirect()->route('admin.reservations.index')->with('error', $e->getMessage());
+        }
     }
 
     // Supprimer une réservation

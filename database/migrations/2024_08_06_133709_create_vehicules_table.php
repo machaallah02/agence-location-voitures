@@ -26,7 +26,6 @@ return new class extends Migration
             $table->boolean('statut_disponibilité')->default(true);
             $table->decimal('tarif_location', 10, 2);
             $table->string('image')->nullable();
-
             $table->timestamps();
         });
     }

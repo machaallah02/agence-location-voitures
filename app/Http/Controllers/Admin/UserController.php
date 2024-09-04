@@ -11,7 +11,6 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    // Afficher la liste des utilisateurs
     public function index(): View
     {
         $users = User::all();
@@ -29,6 +28,7 @@ class UserController extends Controller
     // Enregistrer un nouvel utilisateur
     public function store(UserRequest $request): RedirectResponse
     {
+        try {
         User::create([
             'nom' => $request->nom,
             'email' => $request->email,
@@ -37,6 +37,10 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Utilisateur créé avec succès.');
+        } catch (\Exception $e) {
+
+            return redirect()->route('admin.users.index')->with('error', $e->getMessage());
+        }
     }
 
     // Afficher les détails d'un utilisateur
@@ -58,6 +62,7 @@ class UserController extends Controller
     // Mettre à jour les informations d'un utilisateur
     public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
+        try {
         $user->update([
             'nom' => $request->nom,
             'email' => $request->email,
@@ -66,6 +71,9 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Utilisateur mis à jour avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.users.index')->with('error', $e->getMessage());
+        }
     }
 
     // Supprimer un utilisateur

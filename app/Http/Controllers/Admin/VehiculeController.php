@@ -29,30 +29,33 @@ class VehiculeController extends Controller
     // Enregistrer un nouveau véhicule
     public function store(VehiculeRequest $request)
     {
-        // Sauvegarder l'image
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('vehicules', 'public');
-        } else {
-            return back()->with('error', 'Le fichier image est manquant.');
+        try {
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('vehicules', 'public');
+            } else {
+                return back()->with('error', 'Le fichier image est manquant.');
+            }
+
+            Vehicule::create([
+                'marque' => $request->marque,
+                'modele' => $request->modele,
+                'année' => $request->année,
+                'couleur' => $request->couleur,
+                'type' => $request->type,
+                'carburant' => $request->carburant,
+                'puissance' => $request->puissance,
+                'controle' => $request->controle,
+                'vitesse_max' => $request->vitesse_max,
+                'numéro_immatriculation' => $request->numéro_immatriculation,
+                'statut_disponibilité' => $request->statut_disponibilité,
+                'tarif_location' => $request->tarif_location,
+                'image' => $imagePath
+            ]);
+
+            return redirect()->route('admin.vehicules.index')->with('success', 'Véhicule créé avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.vehicules.create')->with('error', 'Une erreur est survenue lors de la création du véhicule.');
         }
-
-        Vehicule::create([
-            'marque' => $request->marque,
-            'modele' => $request->modele,
-            'année' => $request->année,
-            'couleur' => $request->couleur,
-            'type' => $request->type,
-            'carburant' => $request->carburant,
-            'puissance' => $request->puissance,
-            'controle'=>$request->controle,
-            'vitesse_max' => $request->vitesse_max,
-            'numéro_immatriculation' => $request->numéro_immatriculation,
-            'statut_disponibilité' => $request->statut_disponibilité,
-            'tarif_location' => $request->tarif_location,
-            'image' => $imagePath
-        ]);
-
-        return redirect()->route('admin.vehicules.index')->with('success', 'Véhicule créé avec succès.');
     }
 
     // Afficher les détails d'un véhicule
@@ -97,20 +100,20 @@ class VehiculeController extends Controller
                 'type' => $request->type,
                 'puissance' => $request->puissance,
                 'vitesse_max' => $request->vitesse_max,
-                'controle'=>$request->controle,
+                'controle' => $request->controle,
                 'numéro_immatriculation' => $request->numéro_immatriculation,
                 'statut_disponibilité' => $request->statut_disponibilité,
                 'tarif_location' => $request->tarif_location,
-                'image' => $vehicule->image // Utilise la nouvelle image si elle est définie
+                'image' => $vehicule->image
             ]);
 
             // Redirection avec message de succès
             return redirect()->route('admin.vehicules.index', $vehicule->id)
-                             ->with('success', 'Véhicule mis à jour avec succès.');
+                ->with('success', 'Véhicule mis à jour avec succès.');
         } catch (\Exception $e) {
             // Gérer les erreurs et renvoyer un message flash
             return redirect()->route('admin.vehicules.edit', $vehicule->id)
-                             ->with('error', 'Une erreur est survenue lors de la mise à jour du véhicule.');
+                ->with('error','Une erreur est survenue lors de la mise à jour du véhicule.');
         }
     }
 
@@ -123,7 +126,8 @@ class VehiculeController extends Controller
 
 
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         // Validation des entrées
         $validated = $request->validate([
             'marque' => 'nullable|string|max:255',
@@ -172,5 +176,4 @@ class VehiculeController extends Controller
             'vehicules' => $vehicules,
         ]);
     }
-
 }

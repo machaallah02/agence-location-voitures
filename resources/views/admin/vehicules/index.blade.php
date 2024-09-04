@@ -5,17 +5,6 @@
 @section('content')
 <div id="main" class="main">
     <h1>Liste des Véhicules</h1>
-
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @elseif (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <a href="{{ route('admin.vehicules.create') }}" class="btn btn-primary mb-3">Ajouter un Véhicule</a>
 
     <table class="table table-bordered">

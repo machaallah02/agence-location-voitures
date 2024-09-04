@@ -67,7 +67,7 @@ class MaintenanceController extends Controller
      */
     public function update(Request $request, Maintenance $maintenance)
     {
-        // Valider les données envoyées
+       try {
         $validatedData = $request->validate([
             'vehicule_id' => 'required|exists:vehicules,id',
             'date_maintenance' => 'required|date',
@@ -77,8 +77,11 @@ class MaintenanceController extends Controller
 
         $maintenance->update($validatedData);
 
-        // Rediriger avec un message de succès
         return redirect()->route('admin.maintenances.index')->with('success', 'Maintenance mise à jour avec succès.');
+       } catch (\Exception $e) {
+
+        return redirect()->route('admin.maintenances.index')->with('error', $e->getMessage());
+       }
     }
 
     /**

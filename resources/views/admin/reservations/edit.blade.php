@@ -51,7 +51,6 @@
             <input type="number" name="coût_total" id="coût_total" class="form-control" step="0.01" value="{{ old('coût_total', $reservation->coût_total) }}" required>
             @error('coût_total') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
-
         <div class="form-group">
             <label for="statut">Statut</label>
             <select name="statut" id="statut" class="form-control" required>
@@ -61,7 +60,6 @@
             </select>
             @error('statut') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
-
         <button type="submit" class="btn btn-warning">Mettre à Jour</button>
     </form>
 </div>

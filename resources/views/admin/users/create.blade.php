@@ -6,17 +6,6 @@
 <div id="main" class="main">
     <h1>Ajouter un utilisateur</h1>
 
-    <!-- Affichage des messages d'erreur globaux -->
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form action="{{ route('admin.users.store') }}" method="POST">
         @csrf
         <div class="form-group">
@@ -66,32 +55,4 @@
         <button type="submit" class="btn btn-success">Créer</button>
     </form>
 </div>
-
-<!-- Intégration de Toastify -->
-<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script>
-    @if(session('success'))
-        Toastify({
-            text: "{{ session('success') }}",
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            style: {
-                backgroundColor: "#28a745",
-            }
-        }).showToast();
-    @endif
-
-    @if($errors->any())
-        Toastify({
-            text: "Veuillez corriger les erreurs dans le formulaire.",
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            style: {
-                backgroundColor: "#dc3545",
-            }
-        }).showToast();
-    @endif
-</script>
 @endsection

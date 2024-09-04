@@ -5,9 +5,7 @@
 @section('content')
 <div id="main" class="main">
     <h1>Planification de Maintenance</h1>
-
     <a href="{{ route('admin.maintenances.create') }}" class="btn btn-primary mb-3">Planifier une Maintenance</a>
-
     <table class="table table-bordered">
         <thead>
             <tr>

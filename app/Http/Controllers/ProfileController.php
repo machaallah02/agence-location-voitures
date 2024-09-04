@@ -11,8 +11,6 @@ class ProfileController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-
-        // Assurez-vous que l'utilisateur accède seulement à son propre profil
         if (Auth::user()->id !== $user->id) {
             return redirect()->route('home')->with('error', 'Accès non autorisé');
         }
@@ -27,13 +25,11 @@ class ProfileController extends Controller
     $user->email = $request->input('email');
     $user->telephone = $request->input('telephone');
     $user->adresse = $request->input('adresse');
-    
+
     if ($request->hasFile('image')) {
         $user->image = $request->file('image')->store('images', 'public');
     }
-    
     $user->save();
-
     return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
 }
 
@@ -42,6 +38,6 @@ public function edit($id)
     $user = User::findOrFail($id);
     return view('profile.edit', compact('user'));
      }
-    
+
 }
 

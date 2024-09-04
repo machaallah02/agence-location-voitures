@@ -71,37 +71,82 @@
   <script src="{{asset('admin/assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
   <script src="{{asset('admin/assets/vendor/tinymce/tinymce.min.js')}}"></script>
   <script src="{{asset('admin/assets/vendor/php-email-form/validate.js')}}"></script>
-
-  <!-- Template Main JS File -->
   <script src="{{asset('admin/assets/js/main.js')}}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <style>
+    .colored-toast.swal2-icon-success {
+        background-color: #a5dc86 !important;
+    }
 
+    .colored-toast.swal2-icon-error {
+        background-color: #f27474 !important;
+    }
+
+    .colored-toast.swal2-icon-warning {
+        background-color: #f8bb86 !important;
+    }
+
+    .colored-toast.swal2-icon-info {
+        background-color: #3fc3ee !important;
+    }
+
+    .colored-toast.swal2-icon-question {
+        background-color: #87adbd !important;
+    }
+
+    .colored-toast .swal2-title {
+        color: white;
+    }
+
+    .colored-toast .swal2-close {
+        color: white;
+    }
+
+    .colored-toast .swal2-html-container {
+        color: white;
+    }
+</style>
+
+  @if (session('success'))
   <script>
-    @if(session('success'))
-        Toastify({
-            text: "{{ session('success') }}",
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            style: {
-                backgroundColor: "#28a745",
-            }
-        }).showToast();
-    @endif
+      const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-right',
+          iconColor: 'white',
+          customClass: {
+              popup: 'colored-toast',
+          },
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+      })
+      Toast.fire({
+          icon: 'success',
+          title: '{{ session('success') }}'
+      })
+  </script>
+@endif
 
-    @if($errors->any())
-        Toastify({
-            text: "{{$errors->first() }}",
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            style: {
-                backgroundColor: "#dc3545",
-            }
-        }).showToast();
-    @endif
-</script>
+@if (session('error'))
+  <script>
+      const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-right',
+          iconColor: 'white',
+          customClass: {
+              popup: 'colored-toast',
+          },
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+      })
+      Toast.fire({
+          icon: 'error',
+          title: '{{ session('error') }}'
+      })
+  </script>
+@endif
 
 </body>
 

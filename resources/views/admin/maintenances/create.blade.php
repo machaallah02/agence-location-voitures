@@ -5,7 +5,6 @@
 @section('content')
 <div id="main" class="main">
     <h1>Planifier une Maintenance</h1>
-
     <form action="{{ route('admin.maintenances.store') }}" method="POST">
         @csrf
         <div class="mb-3">

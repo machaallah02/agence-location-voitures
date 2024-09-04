@@ -28,28 +28,11 @@
                             </p>
                         </li>
 
-                        <li class="menu-list__item menu-list__item--inner">
+                        <li class="menu-list__item ">
                             <p class="menu-list__text"> <span>
                                     Actualités
                                 </span>
-                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7.6141 0.5H0.385884C0.043835 0.5 -0.130416 0.971108 0.114826 1.25083L3.72893 5.37302C3.87737 5.54233 4.12261 5.54233 4.27111 5.37302L7.88522 1.25083C8.1304 0.971108 7.95614 0.5 7.6141 0.5Z"
-                                        fill="#777777" />
-                                </svg>
                             </p>
-                            <ul class="menu-list__sublist menu-sublist">
-                                <li class="menu-sublist__item"> <a class="menu-sublist__link" href="blog-1.html">
-                                        Liste des Articles
-                                    </a> </li>
-                                <li class="menu-sublist__item"> <a class="menu-sublist__link" href="blog-2.html">
-                                        Grille des Articles
-                                    </a> </li>
-                                <li class="menu-sublist__item"> <a class="menu-sublist__link" href="article.html">
-                                        Détail de l'Article
-                                    </a> </li>
-                            </ul>
                         </li>
                         <li class="menu-list__item">
                             <a class="menu-list__link" href="contacts.html">
@@ -57,22 +40,19 @@
                             </a>
                         </li>
                         {{-- Afficher si l'utilisateur avec le rôle "client" est connecté --}}
-                        @auth
-                            @if (auth()->user()->role === 'client')
-                                <li class="menu-list__item">
-                                    <a class="menu-list__link" href="{{ route('client') }}">
-                                        <span>Espace client</span>
-                                    </a>
-                                </li>
-                            @else
-                                <li class="menu-list__item">
-                                    {{-- enlevze la barre du lien qui s'affiche quand le cursseur est sur le lien --}}
-                                    <a class="menu-list__link" href="{{ route('login') }}">
-                                        <span class="bold text-white bg-danger border-0 p-2">Connection</span>
-                                    </a>
-                                </li>
-                            @endif
-                        @endauth
+                        @auth('client')
+                        <li class="menu-list__item text-decoration-none">
+                            <a class="menu-list__link" href="{{ route('client') }}">
+                                <span>Espace client</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="menu-list__item">
+                            <a class="menu-list__link text-decoration-none" href="{{ route('login') }}">
+                                <span class="bold text-white bg-danger border-0 p-2">Connexion</span>
+                            </a>
+                        </li>
+                    @endauth
 
                     </ul>
                 </nav>

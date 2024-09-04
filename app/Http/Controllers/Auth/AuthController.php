@@ -26,7 +26,6 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     {
-        // Validation des données de connexion
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -35,7 +34,6 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $remember = $request->has('remember');
 
-        // Tentative de connexion
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
 
@@ -46,10 +44,10 @@ class AuthController extends Controller
             } elseif ($user->role == 'client') {
                 return redirect()->route('home')->with('success', 'Vous êtes connecté en tant que client.');
             } else {
-                return redirect()->route('login')->withErrors(['error' => 'Rôle utilisateur non reconnu.']);
+                return redirect()->route('login')->with(['error' => 'Rôle utilisateur non reconnu.']);
             }
         } else {
-            return redirect()->route('login')->withErrors(['email' => 'Identifiants invalides.']);
+            return redirect()->route('login')->with(['error' => 'Identifiants invalides.']);
         }
     }
 
@@ -71,6 +69,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        try {
         $request->validate([
             'nom' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -86,6 +85,9 @@ class AuthController extends Controller
         ]);
 
         return redirect()->route('login')->with('success', 'Compte créé avec succès.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     public function showRegistrationForm()

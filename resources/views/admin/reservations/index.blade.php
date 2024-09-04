@@ -5,13 +5,6 @@
 @section('content')
 <div id="main" class="main">
     <h1>Liste des Réservations</h1>
-
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <table class="table table-striped">
         <thead>
             <tr>
