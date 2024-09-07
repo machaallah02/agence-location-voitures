@@ -169,8 +169,8 @@
                 const diffTime = Math.abs(dateFin - dateDebut);
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-                const vehicleRate = parseFloat('{{ $vehicule->tarif_location }}');
-                const totalCost = diffDays * vehicleRate;
+                const vehiculeRate = parseFloat('{{ $vehicule->tarif_location }}');
+                const totalCost = diffDays * vehiculeRate;
 
                 fetch(`{{ route('check-availability') }}?vehicule_id=${vehiculeId}&date_debut=${dateDebutInput.value}&date_fin=${dateFinInput.value}`)
                     .then(response => response.json())

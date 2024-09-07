@@ -52,7 +52,7 @@
                                         @if ($reservation->statut == 'réservé')
                                             <form action="{{ route('reservation.pay', $reservation->id) }}" method="POST" class="d-inline-block">
                                                 @csrf
-                                                <input type="hidden" name="montant" value="{{ number_format($reservation->coût_total, 2, '.', '') }}">
+                                                <input type="hidden" name="amount" value="{{ number_format($reservation->coût_total, 2, '.', '') }}">
                                                 <button class="btn btn-warning btn-sm" type="submit" onclick="return confirm('Voulez-vous payer cette réservation ?')">
                                                     <i class="fas fa-credit-card"></i> Payer
                                                 </button>

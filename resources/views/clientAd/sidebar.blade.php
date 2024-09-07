@@ -4,7 +4,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href={{route('client')}}>
+        <a class="nav-link " href={{route('client.index')}}>
           <i class="bi bi-grid"></i>
           <span>Bonjour {{ Auth::user()->nom }}</span>
         </a>

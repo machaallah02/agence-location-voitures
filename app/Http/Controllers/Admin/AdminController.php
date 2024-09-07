@@ -20,7 +20,7 @@ class AdminController extends Controller
     $totalUsers = User::count();
     $totalReservations = Reservation::count();
     $totalMaintenances = Maintenance::count();
-    $totalPayments = Payment::sum('montant'); // Total des paiements
+    $totalPayments = Payment::sum('montant'); 
 
     // Récupération des activités récentes
     $recentActivities = collect();

@@ -40,9 +40,9 @@
                             </a>
                         </li>
                         {{-- Afficher si l'utilisateur avec le rôle "client" est connecté --}}
-                        @auth('client')
+                        @auth
                         <li class="menu-list__item text-decoration-none">
-                            <a class="menu-list__link" href="{{ route('client') }}">
+                            <a class="menu-list__link" href="{{ route('client.index') }}">
                                 <span>Espace client</span>
                             </a>
                         </li>

@@ -34,7 +34,7 @@ Route::put('/profil/{id}', [ProfileController::class, 'update'])->name('profile.
 Route::middleware(['auth', 'client'])->group(function () {
     //admin client
 Route::get('client/profile', [ClientController::class, 'profile'])->name('profile');
-Route::get('/admin/client', [ClientController::class, 'index'])->name('client');
+Route::get('/admin/client', [ClientController::class, 'index'])->name('client.index');
 Route::get('/reservation/{vehicule}', [ClientController::class, 'showReservationForm'])->name('reservation');
 Route::post('/reservation', [ClientController::class, 'store'])->name('reservations.store');
 Route::get('/historique', [ClientController::class, 'historique'])->name('historique');

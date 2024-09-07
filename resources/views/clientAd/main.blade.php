@@ -1,10 +1,10 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Tableau de Bord</h1>
+        <h1>Espace Client</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('client.index') }}">Accueil</a></li>
                 <li class="breadcrumb-item active">Tableau de Bord</li>
             </ol>
         </nav>
@@ -20,27 +20,15 @@
                     <!-- Reservations Card -->
                     <div class="col-xxl-4 col-md-6">
                         <div class="card info-card sales-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filtrer</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
-                                    <li><a class="dropdown-item" href="#">Ce mois-ci</a></li>
-                                    <li><a class="dropdown-item" href="#">Cette année</a></li>
-                                </ul>
-                            </div>
-
                             <div class="card-body">
-                                <h5 class="card-title">Réservations <span>| Aujourd'hui</span></h5>
+                                <h5 class="card-title">Vos Réservations <span>| Aujourd'hui</span></h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-car-front"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>3</h6>
-                                        <span class="text-success small pt-1 fw-bold">2 nouvelles</span>
+                                        <h6>{{ $reservationsToday }}</h6>
+                                        <span class="text-success small pt-1 fw-bold">{{ $reservationsToday }} nouvelles</span>
                                         <span class="text-muted small pt-2 ps-1">aujourd'hui</span>
                                     </div>
                                 </div>
@@ -51,18 +39,6 @@
                     <!-- Total Spending Card -->
                     <div class="col-xxl-4 col-md-6">
                         <div class="card info-card revenue-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filtrer</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
-                                    <li><a class="dropdown-item" href="#">Ce mois-ci</a></li>
-                                    <li><a class="dropdown-item" href="#">Cette année</a></li>
-                                </ul>
-                            </div>
-
                             <div class="card-body">
                                 <h5 class="card-title">Dépenses Totales <span>| Ce mois-ci</span></h5>
                                 <div class="d-flex align-items-center">
@@ -70,7 +46,7 @@
                                         <i class="bi bi-wallet2"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>$560</h6>
+                                        <h6>${{ number_format($totalSpendingThisMonth, 2) }}</h6>
                                         <span class="text-success small pt-1 fw-bold">+15%</span>
                                         <span class="text-muted small pt-2 ps-1">par rapport au mois dernier</span>
                                     </div>
@@ -82,29 +58,22 @@
                     <!-- Suggested Vehicles Card -->
                     <div class="col-xxl-4 col-xl-12">
                         <div class="card info-card customers-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filtrer</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
-                                    <li><a class="dropdown-item" href="#">Ce mois-ci</a></li>
-                                    <li><a class="dropdown-item" href="#">Cette année</a></li>
-                                </ul>
-                            </div>
-
                             <div class="card-body">
-                                <h5 class="card-title">Véhicules Suggérés <span>| Pour vous</span></h5>
+                                <h5 class="card-title">Véhicules Suggérés <span>| Basé sur votre historique</span></h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-star"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>5 options</h6>
+                                        <h6>{{ count($suggestedVehicles) }} options</h6>
                                         <span class="text-muted small pt-2 ps-1">basées sur votre historique</span>
                                     </div>
                                 </div>
+                                <ul>
+                                    @foreach($suggestedVehicles as $vehicle)
+                                        <li>{{ $vehicle->marque }} {{ $vehicle->modele }} - {{ $vehicle->carburant }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div><!-- End Suggested Vehicles Card -->
@@ -118,11 +87,14 @@
                                     <!-- Placeholder for the chart -->
                                 </div>
                                 <script>
-                                    // Example chart using ApexCharts
                                     var options = {
                                         series: [{
                                             name: 'Réservations',
-                                            data: [3, 7, 5, 8, 4, 9, 6]
+                                            data: [
+                                                @for($i = 1; $i <= 7; $i++)
+                                                    {{ $reservationStats[$i] ?? 0 }},
+                                                @endfor
+                                            ]
                                         }],
                                         chart: {
                                             height: 300,
@@ -143,7 +115,7 @@
                                         },
                                         grid: {
                                             row: {
-                                                colors: ['#f3f3f3', 'transparent'], // alternating colors
+                                                colors: ['#f3f3f3', 'transparent'],
                                                 opacity: 0.5
                                             },
                                         },
@@ -151,7 +123,6 @@
                                             categories: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
                                         }
                                     };
-
                                     var chart = new ApexCharts(document.querySelector("#reservationChart"), options);
                                     chart.render();
                                 </script>
@@ -168,7 +139,7 @@
                 <!-- Suggestions Card -->
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Suggestions</h5>
+                        <h5 class="card-title">Suggestions pour Vous</h5>
                         <div class="suggestions">
                             <ul>
                                 <li>Réservez un SUV pour vos prochaines vacances</li>
