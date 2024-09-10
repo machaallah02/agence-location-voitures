@@ -46,7 +46,7 @@
                         <h5 class="card-title mt-4 text-center">Paiement</h5>
                         <form action="{{ route('reservation.pay', $reservation->id) }}" method="POST" class="payment-form">
                             @csrf
-                            <input type="hidden" name="montant" value="{{ number_format($reservation->coût_total, 2, '.', '') }}">
+                            <input type="hidden" name="amount" value="{{ number_format($reservation->coût_total, 2, '.', '') }}">
                             <button class="btn btn-warning btn-lg w-100" type="submit" onclick="return confirm('Voulez-vous payer cette réservation ?')">
                                 <i class="fas fa-credit-card"></i> Payer maintenant
                             </button>

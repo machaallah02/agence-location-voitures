@@ -20,11 +20,10 @@ class AdminController extends Controller
     $totalUsers = User::count();
     $totalReservations = Reservation::count();
     $totalMaintenances = Maintenance::count();
-    $totalPayments = Payment::sum('montant'); 
+    $totalPayments = Payment::sum('montant');
 
     // Récupération des activités récentes
     $recentActivities = collect();
-    // (Code des activités récentes comme précédemment)
 
     // Récupération des voitures récentes
     $recentVehicles = Vehicule::latest('created_at')->take(5)->get();
@@ -39,7 +38,6 @@ class AdminController extends Controller
         ->pluck('count', 'month')
         ->toArray();
 
-    // Passer les données à la vue
     return view('admin.index', [
         'totalVehicles' => $totalVehicles,
         'totalUsers' => $totalUsers,

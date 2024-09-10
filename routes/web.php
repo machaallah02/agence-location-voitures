@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\PersonnelController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\VehiculeController;
@@ -32,16 +33,13 @@ Route::put('/profil/{id}', [ProfileController::class, 'update'])->name('profile.
 
 
 Route::middleware(['auth', 'client'])->group(function () {
-    //admin client
 Route::get('client/profile', [ClientController::class, 'profile'])->name('profile');
 Route::get('/admin/client', [ClientController::class, 'index'])->name('client.index');
 Route::get('/reservation/{vehicule}', [ClientController::class, 'showReservationForm'])->name('reservation');
 Route::post('/reservation', [ClientController::class, 'store'])->name('reservations.store');
 Route::get('/historique', [ClientController::class, 'historique'])->name('historique');
 Route::get('/check-availability', [ClientController::class, 'checkAvailability'])->name('check-availability');
-// reservation details
 Route::get('/reservations/{reservation:id}/details', [ClientController::class, 'showReservationDetails'])->name('reservations.details');
-
 });
 
 
@@ -79,6 +77,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/index', [AdminController::class, 'dashboard'])->name('index');
     Route::get('settings', [AdminController::class, 'settings'])->name('settings');
     Route::get('profile', [AdminController::class, 'profile'])->name('profile');
+});
+
+Route::middleware(['auth', 'personnel'])->prefix('personnel')->name('personnel.')->group(function () {
+    Route::get('/index', [PersonnelController::class, 'index'])->name('index');
 });
 
 Route::get('/vehicules/search', [VehiculeController::class, 'search'])->name('vehicules.search');

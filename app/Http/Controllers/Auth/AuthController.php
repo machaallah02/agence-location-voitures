@@ -40,7 +40,7 @@ class AuthController extends Controller
             if ($user->role == 'admin') {
                 return redirect()->route('admin.index');
             } elseif ($user->role == 'personnel') {
-                return redirect()->route('home');
+                return redirect()->route('personnel.index');
             } elseif ($user->role == 'client') {
                 return redirect()->route('home')->with('success', 'Vous êtes connecté en tant que client.');
             } else {

@@ -542,26 +542,26 @@
 
             <div class="brands-grid brands-grid_3col">
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/pngegg (1).png" alt="Coupe"></a>
+                    <a href="#"><img src="{{asset('images/pngegg (1).png')}}" alt="Coupe"></a>
                     <span>Coupe</span>
                 </div>
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/g2.jpg" alt="SUV"></a>
+                    <a href="#"><img src="{{asset('images/g2.jpg')}}" alt="SUV"></a>
                     <span>SUV</span>
                 </div>
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/pngegg (2).png" alt="Hybride"></a>
+                    <a href="#"><img src="{{asset('images/pngegg (2).png')}}" alt="Hybride"></a>
                     <span>Hybride</span>
                 </div>
             </div>
 
             <div class="brands-grid brands-grid_2col">
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/pngegg.png" alt="Berline"></a>
+                    <a href="#"><img src="{{asset('images/pngegg.png')}}" alt="Berline"></a>
                     <span>Berline</span>
                 </div>
                 <div class="brands-grid-item">
-                    <a href="#"><img src="images/s3.jpg" alt="Sport"></a>
+                    <a href="#"><img src="{{asset('images/s3.jpg')}}" alt="Sport"></a>
                     <span>Sport</span>
                 </div>
             </div>
@@ -587,7 +587,7 @@
                                 <div class="rcslide-slide__top rcslide-slide-top">
                                     <div class="rcslide-slide-top__box rcslide-slide-top-box">
                                         <div class="rcslide-slide-top-box__img">
-                                            <img class="rcslide-slide-top-box__img-image" src="images/ava1.jpeg" alt="Andrew Tyson">
+                                            <img class="rcslide-slide-top-box__img-image" src="{{asset('images/ava1.jpeg')}}" alt="Andrew Tyson">
                                         </div>
                                         <div class="rcslide-slide-top-box__column">
                                             <p class="rcslide-slide-top-box__column-name">Andrew Tyson</p>
@@ -612,7 +612,7 @@
                                 <div class="rcslide-slide__top rcslide-slide-top">
                                     <div class="rcslide-slide-top__box rcslide-slide-top-box">
                                         <div class="rcslide-slide-top-box__img">
-                                            <img class="rcslide-slide-top-box__img-image" src="images/ava2.jpeg" alt="Shane Wilson">
+                                            <img class="rcslide-slide-top-box__img-image" src="{{asset('images/ava2.jpeg')}}" alt="Shane Wilson">
                                         </div>
                                         <div class="rcslide-slide-top__column">
                                             <p class="rcslide-slide-top-box__column-name">Shane Wilson</p>
@@ -643,7 +643,7 @@
            </div>
            <div class="articles__inner">
               <div class="articles__card articles-card articles-card articles-card-box articles-card-date-bottom" href="#">
-                  <div class="articles-card__poster">  <a href="#"><img class="articles-card__img" src="images/articles-img-1.jpg" alt="img"> </a></div>
+                  <div class="articles-card__poster">  <a href="#"><img class="articles-card__img" src="{{('images/articles-img-1.jpg')}}" alt="img"> <img class="articles-card__img"> </a></div>
                  <div class="articles-card__bottom">
 
                     <h3 class="articles-card__title">
