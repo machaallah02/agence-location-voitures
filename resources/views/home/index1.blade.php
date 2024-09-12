@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="images/slider1.jpg" alt="img">
+                        <img src="{{asset('images/slider1.jpg')}}" alt="img">
                     </div>
 
                     <div class="swiper-slide">
@@ -150,7 +150,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="images/slider2.jpg" alt="img">
+                        <img src="{{asset('images/slider2.jpg')}}" alt="img">
                     </div>
 
                     <div class="swiper-slide">
@@ -187,7 +187,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="images/slider3.jpg" alt="img">
+                        <img src="{{asset('images/slider3.jpg')}}" alt="img">
                     </div>
 
                 </div>
@@ -571,10 +571,10 @@
     <section class="section-all-padding main__reviews-bg1">
         <div class="container">
 
-            <div class="carbox__titling titling titling--centered">
+            <div class="carbox__titling titling titling--centered ">
                 <p class="titling__suptext">Emmener les trajets à un niveau supérieur</p>
-                <h1 class="titling__title">Nos Clients</h1>
-                <p class="titling__text">
+                <h1 class="titling__title text-dark">Nos Clients</h1>
+                <p class="titling__text text-dark">
                     Ce que disent nos clients de notre service de recherche de voitures rapide, c'est qu'il est efficace et fiable. Ils apprécient la rapidité avec laquelle nous trouvons le véhicule parfait pour eux, leur faisant gagner un temps et des efforts précieux.
                 </p>
             </div>
@@ -643,7 +643,7 @@
            </div>
            <div class="articles__inner">
               <div class="articles__card articles-card articles-card articles-card-box articles-card-date-bottom" href="#">
-                  <div class="articles-card__poster">  <a href="#"><img class="articles-card__img" src="{{('images/articles-img-1.jpg')}}" alt="img"> <img class="articles-card__img"> </a></div>
+                  <div class="articles-card__poster">  <a href="#"><img class="articles-card__img" src="{{asset('images/articles-img-1.jpg')}}" alt="img"> <img class="articles-card__img"> </a></div>
                  <div class="articles-card__bottom">
 
                     <h3 class="articles-card__title">
@@ -663,7 +663,7 @@
                  </div>
               </div>
                <div class="articles__card articles-card articles-card articles-card-box articles-card-date-bottom" href="#">
-                   <div class="articles-card__poster">  <a href="#"><img class="articles-card__img" src="images/articles-img-2.jpg" alt="img"> </a></div>
+                   <div class="articles-card__poster">  <a href="#"><img class="articles-card__img" src="{{asset('images/articles-img-2.jpg')}}" alt="img"> </a></div>
                  <div class="articles-card__bottom">
 
                     <h3 class="articles-card__title">
@@ -683,7 +683,7 @@
                  </div>
               </div>
                <div class="articles__card articles-card articles-card articles-card-box articles-card-date-bottom" href="#">
-                   <div class="articles-card__poster"> <a href="#"> <img class="articles-card__img" src="images/articles-img-3.jpg" alt="img"></a> </div>
+                   <div class="articles-card__poster"> <a href="#"> <img class="articles-card__img" src="{{asset('images/articles-img-3.jpg')}}" alt="img"></a> </div>
                  <div class="articles-card__bottom">
 
                     <h3 class="articles-card__title">
@@ -705,7 +705,7 @@
               </div>
               </div>
         </div>
-        <img class="articles__bg" src="images/articles-bg.png" alt="bg">
+        <img class="articles__bg" src="{{asset('images/articles-bg.png')}}" alt="bg">
      </section>
 
  </main>

@@ -20,7 +20,7 @@
             </a>
           </li>
           <li>
-            <a href={{route('home')}}>
+            <a href={{route('vehicules')}}>
               <i class="bi bi-person-plus-fill"></i><span>Faite une réservation</span>
             </a>
           </li>

@@ -29,7 +29,8 @@
                             @foreach ($reservations as $reservation)
                                 <tr>
                                     <td class="text-center">
-                                        <a href="{{ route('reservations.details', $reservation->id) }}" class="text-decoration-none">
+                                        <a href="{{ route('reservations.details', $reservation->id) }}"
+                                            class="text-decoration-none">
                                             <strong>{{ $reservation->vehicule->marque }}</strong>
                                         </a>
                                         <br>
@@ -37,23 +38,30 @@
                                     </td>
                                     <td class="text-center">{{ $reservation->date_debut->format('d/m/Y') }}</td>
                                     <td class="text-center">{{ $reservation->date_fin->format('d/m/Y') }}</td>
-                                    <td class="text-center">{{ number_format($reservation->coût_total, 2, ',', ' ') }} franc CFA</td>
+                                    <td class="text-center">{{ number_format($reservation->coût_total, 2, ',', ' ') }} franc
+                                        CFA</td>
                                     <td class="text-center">{{ $reservation->created_at->format('d/m/Y H:i') }}</td>
                                     <td class="text-center">
                                         @if ($reservation->statut == 'réservé')
                                             <span class="badge bg-success">{{ ucfirst($reservation->statut) }}</span>
                                         @elseif ($reservation->statut == 'annulé')
                                             <span class="badge bg-danger">{{ ucfirst($reservation->statut) }}</span>
+                                        @elseif ($reservation->statut == 'payé')
+                                            <span class="badge bg-primary">{{ ucfirst($reservation->statut) }}</span>
                                         @else
-                                            <span class="badge bg-secondary">{{ ucfirst($reservation->statut) }}</span>
+                                            <span class="badge bg-info">{{ ucfirst($reservation->statut) }}</span>
                                         @endif
+
                                     </td>
                                     <td class="text-center">
                                         @if ($reservation->statut == 'réservé')
-                                            <form action="{{ route('reservation.pay', $reservation->id) }}" method="POST" class="d-inline-block">
+                                            <form action="{{ route('reservation.pay', $reservation->id) }}" method="POST"
+                                                class="d-inline-block">
                                                 @csrf
-                                                <input type="hidden" name="amount" value="{{ number_format($reservation->coût_total, 2, '.', '') }}">
-                                                <button class="btn btn-warning btn-sm" type="submit" onclick="return confirm('Voulez-vous payer cette réservation ?')">
+                                                <input type="hidden" name="amount"
+                                                    value="{{ number_format($reservation->coût_total, 2, '.', '') }}">
+                                                <button class="btn btn-warning btn-sm" type="submit"
+                                                    onclick="return confirm('Voulez-vous payer cette réservation ?')">
                                                     <i class="fas fa-credit-card"></i> Payer
                                                 </button>
                                             </form>

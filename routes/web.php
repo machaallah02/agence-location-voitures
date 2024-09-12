@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\ReservationController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/reservation/{id}/pay', [PaymentController::class, 'pay'])->name('reservation.pay');
-Route::get('/payment/callback/{reservationId}', [PaymentController::class, 'callback'])->name('payment.callback');
+Route::get('/payment/callback/{reservationId}', [PaymentController::class, 'paymentCallback'])->name('payment.callback');
 Route::get('/vehicule/{id}', [VehiculeController::class, 'showDetails'])->name('vehicule.details');
 Route::get('/vehicules', [VehiculeController::class, 'showAll'])->name('vehicules');
 

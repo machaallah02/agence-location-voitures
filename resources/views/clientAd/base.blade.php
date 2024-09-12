@@ -118,7 +118,7 @@
               popup: 'colored-toast',
           },
           showConfirmButton: false,
-          timer: 2500,
+          timer: 3500,
           timerProgressBar: true,
       })
       Toast.fire({
@@ -138,7 +138,7 @@
               popup: 'colored-toast',
           },
           showConfirmButton: false,
-          timer: 2500,
+          timer: 5500,
           timerProgressBar: true,
       })
       Toast.fire({

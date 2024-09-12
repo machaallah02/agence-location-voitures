@@ -109,7 +109,8 @@ class ClientController extends Controller
             'date_fin' => 'required|date|after_or_equal:date_debut',
         ]);
 
-        $exists = Reservation::where('vehicule_id', $request->vehicule_id)
+        // Vérifier les réservations qui chevauchent la période
+        $reservation = Reservation::where('vehicule_id', $request->vehicule_id)
             ->where(function ($query) use ($request) {
                 $query->whereBetween('date_debut', [$request->date_debut, $request->date_fin])
                     ->orWhereBetween('date_fin', [$request->date_debut, $request->date_fin])
@@ -118,10 +119,18 @@ class ClientController extends Controller
                             ->where('date_fin', '>=', $request->date_fin);
                     });
             })
-            ->exists();
+            ->orderBy('date_fin', 'desc')
+            ->first();
 
-        return response()->json(['available' => !$exists]);
+        if (!$reservation) {
+            return response()->json(['available' => true]);
+        } else {
+            // Retourner la date à laquelle le véhicule sera disponible après la dernière réservation
+            $nextAvailableDate = $reservation->date_fin->addDay(); // Disponible le lendemain de la fin de la réservation
+            return response()->json(['available' => false, 'next_available' => $nextAvailableDate->format('Y-m-d')]);
+        }
     }
+
 
     public function index()
     {
