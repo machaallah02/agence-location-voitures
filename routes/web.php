@@ -40,6 +40,7 @@ Route::post('/reservation', [ClientController::class, 'store'])->name('reservati
 Route::get('/historique', [ClientController::class, 'historique'])->name('historique');
 Route::get('/check-availability', [ClientController::class, 'checkAvailability'])->name('check-availability');
 Route::get('/reservations/{reservation:id}/details', [ClientController::class, 'showReservationDetails'])->name('reservations.details');
+Route::put('annuler-reservation/{reservation}', [ReservationController::class, 'annuler'])->name('annuler-reservation');
 });
 
 

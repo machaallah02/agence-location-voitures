@@ -88,7 +88,7 @@ class PaymentController extends Controller
                 ]);
 
                 // Mettre à jour le statut de la réservation
-                $reservation->statut = 'payée';
+                $reservation->statut = 'completé';
                 $reservation->save();
 
                 // Envoi de l'email de confirmation

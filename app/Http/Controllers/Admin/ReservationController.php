@@ -102,4 +102,14 @@ class ReservationController extends Controller
         $reservation->delete();
         return redirect()->route('admin.reservations.index')->with('success', 'Réservation supprimée avec succès.');
     }
+
+    public function annuler( $reservationId){
+
+        $reservation = Reservation::findOrFail($reservationId);
+        $reservation->statut = 'annulé';
+        $reservation->save();
+        return redirect()->route('historique');
+
+    }
+
 }
